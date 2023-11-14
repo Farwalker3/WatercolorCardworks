@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="flower-playing-cards.svg">
+  <title>Watercolor Cardworks</title>
+  <style>
+    /* Add your styles for the website here */
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+    }
+
+    /* Header styles */
+    #navbar {
+      display: float;
+      justify-content: space-between;
+      align-items: center;
+      text-align: center;
+      padding: 10px;
+      background-color: #e0e0e0;
+      color: #001f3f;
+      font-family: cursive;
+      font-size: 4vw;
+      position: relative;
+    }
+    
+    #navbar .navbar__container {
+      padding: 1.75% 2%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .centeredElement {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .cursor-pointer {
+      cursor: pointer;
+    }
+    
+    .button {
+      padding: 0.6em 0.8em;
+      background: white;
+      color: var(--accent);
+      font-size: 10px;
+      font-weight: 800;
+      text-align: center;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+      transition: transform 0.1s ease, opacity 0.1s ease;
+    }
+    .button:hover {
+      transform: translateY(1px);
+      opacity: 0.9;
+    }
+    .button--accent {
+      background: var(--accent);
+      color: white;
+    }
+    .button--outline {
+      background: var(--dark);
+      color: white;
+      border: solid 1px white;
+    }
+    .button--outline:hover {
+      filter: brightness(150%);
+      opacity: 1;
+    }
+
+    #search-bar {
+      flex: 1;
+      margin-right: 10px;
+    }
+
+    /* Navigation styles */
+    nav {
+      background-color: #001f3f;
+      color: #fff;
+      padding: 1%;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+
+    nav a {
+      font-family: monospace;
+      font-size: 15px;
+      color: #fff;
+      text-decoration: none;
+      margin: 0 1.25%;
+      text-transform: uppercase;
+    }
+
+    /* Card grid styles */
+    #card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .card {
+      position: relative;
+    }
+
+    .quick-view,
+    .add-to-cart {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #007BFF;
+      color: #fff;
+      padding: 5px 10px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .card:hover .quick-view,
+    .card:hover .add-to-cart {
+      display: block;
+    }
+
+    /* Footer styles */
+    footer {
+      background-color: #001f3f;
+      color: #fff;
+      text-align: center;
+      padding-top: 2vw;
+      padding-bottom: 2vw;
+      padding-left: 0;
+      padding-right: 0;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+
+/* More */
+    /* Side menus CSS logic */
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+    .sidemenu-toggle:checked + .sidemenu-container .sidemenu {
+      transform: translate(0, 0);
+    }
+    .sidemenu-toggle:checked + .sidemenu-container .sidemenu-overlay {
+      pointer-events: all;
+      opacity: 1;
+      cursor: pointer;
+    }
+    
+    .sidemenu--mobile {
+      top: 0;
+      transform: translateX(-100%);
+    }
+    .sidemenu--cart {
+      top: 0;
+      right: 0;
+      transform: translateX(100%);
+    }
+    .sidemenu--top {
+      top: 0;
+      transform: translateY(-100%);
+    }
+    .sidemenu--bottom {
+      bottom: 0;
+      transform: translateY(100%);
+    }
+    
+    /* CSS variables */
+    :root {
+      --accent: rgb(170 13 79);
+      --dark: rgb(29 30 34);
+      --shadow: rgba(0,0,0,0.5);
+    }
+    
+    /* utility classes */
+    .hidden {
+      display: none;
+    }
+    
+    .cursor-pointer {
+      cursor: pointer;
+    }
+    
+    .container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+    
+    .button {
+      padding: 0.3em 0.6em;
+      background: white;
+      color: var(--accent);
+      font-size: 1.5vw;
+      font-weight: 800;
+      text-align: center;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+      transition: transform 0.1s ease, opacity 0.1s ease;
+    }
+    .button:hover {
+      transform: translateY(1px);
+      opacity: 0.9;
+    }
+    .button--accent {
+      background: var(--accent);
+      color: white;
+    }
+    .button--outline {
+      background: var(--dark);
+      color: white;
+      border: solid 1px white;
+    }
+    .button--outline:hover {
+      filter: brightness(150%);
+      opacity: 1;
+    }
+    
+    .text-lg {
+      font-size: 1.5rem;
+      font-weight: 800;
+    }
+    
+    .center {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .center-text {
+      text-align: center;
+    }
+    
+    .center-force {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    
+    /* main styles CSS */
+    
+    .sidemenu {
+      position: fixed;
+      height: 100vh;
+      width: 24rem;
+      max-width: 100vw;
+      background: white;
+      z-index: 10;
+      transition: transform ease 0.3s;
+      display: grid;
+      grid-auto-rows: auto 1fr auto;
+    }
+    .sidemenu--top {
+      height: 100%;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+    }
+    .sidemenu--top .sidemenu__footer-content::before {
+      height: 1rem;
+      background: linear-gradient(0deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0) 100%);
+    }
+    .sidemenu--bottom {
+      background: var(--dark);
+      color: white;
+      width: 100%;
+      height: 75%;
+    }
+    .sidemenu .sidemenu__header {
+      border-bottom: 1px grey solid;
+    }
+    .sidemenu .sidemenu__header .sidemenu__header_content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+    .sidemenu .sidemenu__header .sidemenu__header_content--bottom .button {
+      position: absolute;
+      right: 1rem;
+    }
+    .sidemenu .sidemenu__body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      font-size: 1.2rem;
+    }
+    .sidemenu .sidemenu__footer {
+      width: 100%;
+    }
+    .sidemenu .sidemenu__footer .sidemenu__footer-content {
+      padding-top: 1.5rem;
+      padding-bottom: 1.5rem;
+    }
+    .sidemenu .sidemenu__footer::before {
+      content: "";
+      display: block;
+      width: 100%;
+      height: 5rem;
+      background: linear-gradient(0deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0) 100%);
+    }
+    .sidemenu .sidemenu__footer--top {
+      color: var(--accent);
+    }
+    .sidemenu .sidemenu__footer--top::before {
+      height: 1rem;
+      background: linear-gradient(0deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0) 100%);
+    }
+    
+    .sidemenu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 100vw;
+      z-index: 9;
+      background: var(--shadow);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity ease 0.3s;
+    }
+    
+    .main__content {
+      font-size: 1.2rem;
+      max-width: 65ch;
+      margin-top: 11rem;
+      margin-bottom: 6rem;
+    }
+    .main__content p {
+      margin-bottom: 2em;
+    }
+    .main__content .sparkles {
+      font-size: 3rem;
+      margin-bottom: 1.5em;
+    }
+    .main__content .main__buttons {
+      margin-top: 6rem;
+      max-width: 18em;
+    }
+    .main__content .main__buttons .button {
+      display: block;
+      font-size: 1.2rem;
+      margin-top: 1em;
+    }
+    
+    @media only screen and (max-width: 600px) {
+      #navbar {
+        font-size: 5vw;
+      }
+      
+      nav {
+        display: float;
+        justify-content: space-between;
+        align-items: center;
+        text-align: center;
+      }
+      
+      nav a {
+        font-size: 7px;
+      }
+      
+      footer {
+        display: float;
+        justify-content: space-between;
+        align-items: center;
+        text-align: center;
+        font-size: 3vw;
+      }
+      
+      footer span {
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Side Menu -->
+  <input id="mobileMenuToggle" class="sidemenu-toggle hidden" name="mobileMenu" type="checkbox"/>
+  <div class="sidemenu-container">
+    <aside id="mobileMenu" class="sidemenu sidemenu--mobile">
+      <div class="sidemenu__header sidemenu__header--cart">
+        <div class="sidemenu__header_content container">
+          <h1>Menu</h1>
+          <label for="mobileMenuToggle" class="cursor-pointer button">Close</label>
+        </div>
+      </div>
+      <div class="sidemenu__body sidemenu__body--mobile container">
+        <p>Some content 🐠✨</p>
+      </div>
+    </aside>
+    <label for="mobileMenuToggle" class="sidemenu-overlay"></label>
+  </div>
+  
+  <!-- Side Cart -->
+  <input id="sideCartToggle" class="sidemenu-toggle hidden" name="sideCart" type="checkbox"/>
+  <div class="sidemenu-container">
+    <aside id="sideCart" class="sidemenu sidemenu--cart">
+      <div class="sidemenu__header sidemenu__header--cart">
+        <div class="sidemenu__header_content container">
+          <h1>Your Cart</h1>
+          <label for="sideCartToggle" class="cursor-pointer button">Close</label>
+        </div>
+      </div>
+      <div class="sidemenu__body sidemenu__body--mobile container">
+        <p>Some content 🐠✨</p>
+      </div>
+      <div class="sidemenu__footer sidemenu__footer--cart">
+        <div class="sidemenu__footer-content sidemenu__footer-content--mobile container">
+          <div class="sidemenu__footer__button button button--accent cursor-pointer" onclick="window.location='card.html';">Checkout</div>
+        </div>
+      </div>
+    </aside>
+    <label for="sideCartToggle" class="sidemenu-overlay"></label>
+  </div>
+  
+  <!-- Top menu -->
+  <input id="topMenuToggle" class="sidemenu-toggle hidden" name="topMenu" type="checkbox"/>
+  <div class="sidemenu-container">
+    <aside id="topMenu" class="sidemenu sidemenu--top">
+      <div class="sidemenu__header sidemenu__header--top">
+        <div class="sidemenu__header_content container">
+          <h1 class="center">Top menu</h1>
+        </div>
+      </div>
+      <div class="sidemenu__body sidemenu__body--top container">
+        <p>Some content 🐠✨</p>
+      </div>
+      <div class="sidemenu__footer sidemenu__footer--top">
+        <label for="topMenuToggle" class="cursor-pointer">
+          <div class="sidemenu__footer-content sidemenu__footer-content--top container center-text">
+            <span class="sidemenu--top__close-text text-lg">Close</span>
+          </div>
+        </label>
+      </div>
+    </aside>
+  </div>
+  
+  <!-- Bottom menu -->
+  <input id="bottomMenuToggle" class="sidemenu-toggle hidden" name="mobileMenu" type="checkbox"/>
+  <div class="sidemenu-container">
+    <aside id="bottomMenu" class="sidemenu sidemenu--bottom">
+      <div class="sidemenu__header sidemenu__header--bottom">
+        <div class="sidemenu__header_content sidemenu__header_content--bottom container center">
+          <h1 class="center">Bottom drawer</h1>
+          <label for="bottomMenuToggle" class="button button--outline">Close</label>
+        </div>
+      </div>
+      <div class="sidemenu__body sidemenu__body--bottom container">
+        <p>Some content 🐠✨</p>
+      </div>
+    </aside>
+    <label for="bottomMenuToggle" class="sidemenu-overlay"></label>
+  </div>
+  
+  <!-- Navbar -->
+  <nav id="navbar">
+    <div class="container navbar__container">
+      <label for="mobileMenuToggle" class="cursor-pointer button">Menu</label>
+      <span class="center-force">Watercolor Cardworks</span>
+      <label for="sideCartToggle" class="cursor-pointer button">Cart</label>
+    </div>
+  </nav>
+
+  <nav>
+    <a href="index.html">Occasions</a>
+    <a href="index.html">Holidays</a>
+    <a href="index.html">All Occasion Blanks</a>
+    <a href="index.html">Free Downloads</a>
+  </nav>
+
+  <div id="card-grid">
+    <!-- Add your card images with quick view and add to cart buttons here -->
+  </div>
+  
+  <main>
+    <div class="main__content container center">
+      <p class="sparkles center-text">✨ 🎉 ✨</p>
+      <p><strong>Welcome to Watercolor Cardworks,</strong> where the art of expression meets the beauty of <em>watercolor</em>. Immerse yourself in a world of creativity and emotion as you explore our exquisite collection of handcrafted watercolor cards. Each piece is a testament to the skillful blending of pigments, the delicate dance of brushstrokes, and the boundless imagination of our artists.</p>
+      
+      <p>Dive into a spectrum of colors that evoke a myriad of feelings – from the tranquil blues of a serene seascape to the warm hues of a breathtaking sunset. Our watercolor cards are more than just stationery; they are <em>miniature masterpieces</em> that capture the essence of moments, emotions, and celebrations.</p>
+      
+      <p>Whether you're expressing gratitude, celebrating milestones, or simply sending a heartfelt message, our watercolor cards provide a canvas for your sentiments. Each card tells a unique story, inviting the recipient to experience the magic of watercolors and the thoughtfulness of your gesture.</p>
+      
+      <p>At <strong>Watercolor Cardworks</strong>, we believe in the power of art to connect and inspire. Our cards are crafted with precision and passion, ensuring that every stroke contributes to a visual symphony that resonates with art enthusiasts and sentiment seekers alike.</p>
+      
+      <p>Explore our diverse range of designs, from whimsical landscapes to intricate floral arrangements, and find the perfect card for any occasion. Quality is at the core of what we do. We take pride in delivering a product that not only delights the eyes but also satisfies the senses.</p>
+      
+      <p>Make your moments memorable with <strong>Watercolor Cardworks</strong>. Join us in celebrating the art of connection, one brushstroke at a time. Browse our collection, discover the joy of giving, and let the colors of watercolor transform your expressions into timeless keepsakes. Welcome to a world where emotion meets artistry – welcome to <strong>Watercolor Cardworks</strong>.</p>
+
+      <div class="main__buttons center">
+        <label for="topMenuToggle" class="button button--accent">Open top menu</label>
+        <label for="bottomMenuToggle" class="button button--accent">Open bottom menu</label>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <span>Sitemap | Copyright © 2023 Watercolor Cardworks</span>
+  </footer>
+
+  <!-- Your authentication and user interface scripts go here -->
+
+</body>
+</html>
