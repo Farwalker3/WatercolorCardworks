@@ -6,14 +6,53 @@
   <link rel="icon" href="flower-playing-cards.svg">
   <title>Watercolor Cardworks</title>
   <style>
-    /* Add your styles for the website here */
-
+    /* Shared Colors */
+    :root {
+      --background-gradient-start: rgba(240, 240, 240, 0.75);
+      --background-gradient-end: rgba(240, 240, 240, 0.75);
+      --background-image: url("HomepageBackground.tif"), url("HomepageBackground.jpg"), url("HomepageBackground.png");
+      --accent-color: #0047ff;
+      --text-color: #0047ff;
+      --navbar-background: rgba(255, 255, 255, 0.25);
+      --footer-background: #0047ff;
+    }
+    
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
+      position: relative; /* Add this line */
+    }
+    
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: linear-gradient(to bottom, rgba(240, 240, 240, 0.75), rgba(240, 240, 240, 0.75)),
+      url("HomepageBackground.tif"),
+      url("HomepageBackground.jpg"),
+      url("HomepageBackground.png");
+      background-size: contain, cover, cover, cover;
+      animation: animateBackground 120s linear infinite;
+      filter: saturate(4);
     }
 
+    
+    @keyframes animateBackground {
+      0% {
+        background-position: 0% 0%;
+      }
+      50% {
+        background-position: 0% 100%;
+      }
+      100% {
+        background-position: 0% 0%;
+      }
+    }
+    
     /* Header styles */
     #navbar {
       display: float;
@@ -21,10 +60,13 @@
       align-items: center;
       text-align: center;
       padding: 10px;
-      background-color: #e0e0e0;
-      color: #001f3f;
+      background: var(--navbar-background);
+      backdrop-filter: blur(3px) hue-rotate(90deg) saturate(4);
+      -webkit-backdrop-filter: blur(3px) hue-rotate(90deg) saturate(4);
+      color: var(--text-color);
       font-family: cursive;
       font-size: 4vw;
+      font-weight: 700;
       position: relative;
     }
     
@@ -47,7 +89,7 @@
     .button {
       padding: 0.6em 0.8em;
       background: white;
-      color: var(--accent);
+      color: var(--accent-color);
       font-size: 10px;
       font-weight: 800;
       text-align: center;
@@ -61,11 +103,11 @@
       opacity: 0.9;
     }
     .button--accent {
-      background: var(--accent);
+      background: var(--accent-color);
       color: white;
     }
     .button--outline {
-      background: var(--dark);
+      background: var(--text-color);
       color: white;
       border: solid 1px white;
     }
@@ -73,22 +115,22 @@
       filter: brightness(150%);
       opacity: 1;
     }
-
+    
     #search-bar {
       flex: 1;
       margin-right: 10px;
     }
-
+    
     /* Navigation styles */
     nav {
-      background-color: #001f3f;
+      background-color: var(--text-color);
       color: #fff;
       padding: 1%;
       position: sticky;
       top: 0;
       z-index: 5;
     }
-
+    
     nav a {
       font-family: monospace;
       font-size: 15px;
@@ -97,7 +139,7 @@
       margin: 0 1.25%;
       text-transform: uppercase;
     }
-
+    
     /* Card grid styles */
     #card-grid {
       display: grid;
@@ -105,11 +147,15 @@
       gap: 20px;
       padding: 20px;
     }
-
+    
     .card {
       position: relative;
+      width: 100%;
+      padding-bottom: 100%; /* This ensures a 1:1 aspect ratio */
+      background-color: white;
+      border: 1px solid #ddd; /* Add a border for visibility */
     }
-
+    
     .quick-view,
     .add-to-cart {
       position: absolute;
@@ -122,15 +168,16 @@
       cursor: pointer;
       display: none;
     }
-
+    
     .card:hover .quick-view,
     .card:hover .add-to-cart {
       display: block;
     }
 
+    
     /* Footer styles */
     footer {
-      background-color: #001f3f;
+      background-color: var(--footer-background);
       color: #fff;
       text-align: center;
       padding-top: 2vw;
@@ -141,8 +188,8 @@
       bottom: 0;
       width: 100%;
     }
-
-/* More */
+    
+    /* More */
     /* Side menus CSS logic */
     @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
     .sidemenu-toggle:checked + .sidemenu-container .sidemenu {
@@ -174,7 +221,7 @@
     
     /* CSS variables */
     :root {
-      --accent: rgb(170 13 79);
+      --accent: #0047ff;
       --dark: rgb(29 30 34);
       --shadow: rgba(0,0,0,0.5);
     }
@@ -195,7 +242,7 @@
     
     .button {
       padding: 0.3em 0.6em;
-      background: white;
+      background: #fff;
       color: var(--accent);
       font-size: 1.5vw;
       font-weight: 800;
@@ -244,7 +291,6 @@
     }
     
     /* main styles CSS */
-    
     .sidemenu {
       position: fixed;
       height: 100vh;
@@ -260,6 +306,7 @@
       height: 100%;
       width: 100%;
       background: rgba(255, 255, 255, 0.8);
+      -webkit-backdrop-filter: blur(10px);
       backdrop-filter: blur(10px);
     }
     .sidemenu--top .sidemenu__footer-content::before {
@@ -478,7 +525,65 @@
   </nav>
 
   <div id="card-grid">
-    <!-- Add your card images with quick view and add to cart buttons here -->
+    <!-- Card 1 -->
+    <div class="card">
+      <div class="quick-view">Quick View</div>
+      <div class="add-to-cart">Add to Cart</div>
+    </div>
+    
+    <!-- Card 2 -->
+    <div class="card">
+      <div class="quick-view">Quick View</div>
+      <div class="add-to-cart">Add to Cart</div>
+    </div>
+    
+    <!-- Card 3 -->
+    <div class="card">
+      <div class="quick-view">Quick View</div>
+      <div class="add-to-cart">Add to Cart</div>
+    </div>
+    
+    <!-- Card 4 -->
+    <div class="card">
+      <div class="quick-view">Quick View</div>
+      <div class="add-to-cart">Add to Cart</div>
+    </div>
+    
+    <!-- Card 5 -->
+    <div class="card">
+      <div class="quick-view">Quick View</div>
+      <div class="add-to-cart">Add to Cart</div>
+    </div>
+    
+    <!-- Card 6 -->
+    <div class="card">
+      <div class="quick-view">Quick View</div>
+      <div class="add-to-cart">Add to Cart</div>
+    </div>
+    
+    <!-- Card 7 -->
+    <div class="card">
+      <div class="quick-view">Quick View</div>
+      <div class="add-to-cart">Add to Cart</div>
+    </div>
+    
+    <!-- Card 8 -->
+    <div class="card">
+      <div class="quick-view">Quick View</div>
+      <div class="add-to-cart">Add to Cart</div>
+    </div>
+    
+    <!-- Card 9 -->
+    <div class="card">
+      <div class="quick-view">Quick View</div>
+      <div class="add-to-cart">Add to Cart</div>
+    </div>
+    
+    <!-- Card 10 -->
+    <div class="card">
+      <div class="quick-view">Quick View</div>
+      <div class="add-to-cart">Add to Cart</div>
+    </div>
   </div>
   
   <main>
