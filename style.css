@@ -7,7 +7,7 @@
   --accent-color: #0047ff;
   --text-color: #0047ffee;
   --navbar-background: rgba(255, 255, 255, 0.25);
-  --footer-background: #0047ffee;
+  --footer-background: #3D77ffee;
   --title-font: 'Pacifico', cursive;
   --navbar-font: monospace;
   --footer-font: Arial, sans-serif;
@@ -147,8 +147,11 @@ nav a {
   position: relative;
   width: 100%;
   padding-bottom: 100%; /* This ensures a 1:1 aspect ratio */
-  background-color: white;
-  border: 1px solid #ddd; /* Add a border for visibility */
+  background-color: transparent;
+  border-bottom: 2px solid #000; /* Add a border for visibility */
+  background-image: url("card3.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 
 .quick-view,
@@ -175,8 +178,8 @@ footer {
   background-color: var(--footer-background);
   color: #fff;
   text-align: center;
-  padding-top: 2vw;
-  padding-bottom: 2vw;
+  padding-top: 1vw;
+  padding-bottom: 1vw;
   padding-left: 0;
   padding-right: 0;
   position: fixed;
