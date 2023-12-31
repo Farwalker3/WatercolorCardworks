@@ -8,8 +8,7 @@ canvas {
   height: 100%;
   display: block;
   cursor: pointer;
-  z-index: -1; /* Set a lower z-index to position it behind other elements */
-  opacity: 0.5;
+  z-index: -1;
 }
 
 html {
