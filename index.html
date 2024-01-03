@@ -1,137 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="flower-playing-cards.svg">
-  <title>Watercolor Cardworks</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
-</head>
-<body>
-  <!-- Side Menu -->
-  <input id="mobileMenuToggle" class="sidemenu-toggle hidden" name="mobileMenu" type="checkbox"/>
-  <div class="sidemenu-container">
-    <aside id="mobileMenu" class="sidemenu sidemenu--mobile">
-      <div class="sidemenu__header sidemenu__header--cart">
-        <div class="sidemenu__header_content container">
-          <h1>Menu</h1>
-          <label for="mobileMenuToggle" class="cursor-pointer button">Close</label>
-        </div>
-      </div>
-      <div class="sidemenu__body sidemenu__body--mobile container">
-        <h2>Customization Options</h2>
-        <br>
-        <div class="color-picker">
-          <label for="text-color">Main Color:</label>
-          <input type="color" id="text-color">
-        </div>
-        <div class="color-picker">
-          <label for="accent">Accent Color:</label>
-          <input type="color" id="accent">
-        </div>
-        <div class="color-picker">
-          <label for="footer-background">Footer Color:</label>
-          <input type="color" id="footer-background">
-        </div>
-        <!-- Image upload for background -->
-        <div>
-          <label for="img">Upload Background Image:</label>
-          <input type="file" id="img" name="img" accept="image/*">
-        </div>
-        
   
-      </div>
-      <div class="sidemenu__footer sidemenu__footer--cart">
-        <div class="sidemenu__footer-content sidemenu__footer-content--mobile container">
-          <div id="emailLayoutBtn" class="sidemenu__footer__button button button--accent cursor-pointer">Email Me Your Changes</div>
-        </div>
-      </div>
-    </aside>
-    <label for="mobileMenuToggle" class="sidemenu-overlay"></label>
-  </div>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="flower-playing-cards.svg">
+    <title>Watercolor Cardworks</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
   
-  <!-- Your authentication and user interface scripts go here -->
-  <script>
-    // Add your existing scripts here
+  <body>
+    <!-- Side Menu -->
+    <input id="mobileMenuToggle" class="sidemenu-toggle hidden" name="mobileMenu" type="checkbox" />
+    <div class="sidemenu-container">
+      <aside id="mobileMenu" class="sidemenu sidemenu--mobile">
+        <div class="sidemenu__header sidemenu__header--cart">
+          <div class="sidemenu__header_content container">
+            <h1>Menu</h1>
+            <label for="mobileMenuToggle" class="cursor-pointer button">Close</label>
+          </div>
+        </div>
+        <div class="sidemenu__body sidemenu__body--mobile container">
+          <h2>Customization Options</h2>
+          <br>
+          <div class="color-picker">
+            <label for="text-color">Main Color:</label>
+            <input type="color" id="text-color">
+            <span id="text-color-value"></span>
+            <button onclick="copyToClipboard('text-color')">Copy</button>
+          </div>
+          <div class="color-picker">
+            <label for="accent">Accent Color:</label>
+            <input type="color" id="accent">
+            <span id="accent-value"></span>
+            <button onclick="copyToClipboard('accent')">Copy</button>
+          </div>
+          <div class="color-picker">
+            <label for="footer-background">Footer Color:</label>
+            <input type="color" id="footer-background">
+            <span id="footer-background-value"></span>
+            <button onclick="copyToClipboard('footer-background')">Copy</button>
+          </div>
+          <!-- Image upload for background -->
+          <div>
+            <label for="img">Upload Background Image:</label>
+            <input type="file" id="img" name="img" accept="image/*">
+            <span id="img-value"></span>
+          </div>
+        </div>
+        <div class="sidemenu__footer sidemenu__footer--cart">
+          <div class="sidemenu__footer-content sidemenu__footer-content--mobile container">
+            <div id="copyValuesBtn" class="sidemenu__footer__button button button--accent cursor-pointer">Copy Values to Clipboard</div>
+          </div>
+        </div>
+      </aside>
+      <label for="mobileMenuToggle" class="sidemenu-overlay"></label>
+    </div>
     
-    // JavaScript code for customization options
-    document.addEventListener('DOMContentLoaded', function () {      
-      // Event listener for color pickers
-      const colorPickers = document.querySelectorAll('.color-picker input');
-      colorPickers.forEach(picker => {
-        picker.addEventListener('input', updateColor);
+    <!-- Your authentication and user interface scripts go here -->
+    <script>
+      // Add your existing scripts here
+      
+      // JavaScript code for customization options
+      document.addEventListener('DOMContentLoaded', function () {
+        // Event listener for color pickers
+        const colorPickers = document.querySelectorAll('.color-picker input');
+        colorPickers.forEach(picker => {
+          picker.addEventListener('input', updateColor);
+        });
+        
+        // Event listener for image upload
+        const imgInput = document.getElementById('img');
+        imgInput.addEventListener('change', updateBackgroundImage);
+        
+        // Event listener for copy values button
+        const copyValuesBtn = document.getElementById('copyValuesBtn');
+        copyValuesBtn.addEventListener('click', copyAllValuesToClipboard);
       });
       
-      // Event listener for image upload
-      const imgInput = document.getElementById('img');
-      imgInput.addEventListener('change', updateBackgroundImage);
-      
-      // Event listener for email layout button
-      const emailLayoutBtn = document.getElementById('emailLayoutBtn');
-      emailLayoutBtn.addEventListener('click', sendEmail);
-    });
-    
-    // Function to update colors dynamically
-    function updateColor() {
-      document.documentElement.style.setProperty(`--${this.id}`, this.value);
-    }
-    
-    // Function to update background image dynamically
-    function updateBackgroundImage() {
-      const fileInput = document.getElementById('img');
-      const file = fileInput.files[0];
-      
-      if (file) {
-        const reader = new FileReader();
-        
-        reader.onload = function (e) {
-          const imageUrl = `url('${e.target.result}')`;
-          
-          // Remove existing background image rules
-          const styleSheet = document.styleSheets[0];
-          const rules = styleSheet.rules || styleSheet.cssRules;
-          for (let i = 0; i < rules.length; i++) {
-            if (rules[i].selectorText === 'body::before') {
-              // Assuming the old background image is the first url() in the background property
-              rules[i].style.backgroundImage = `${imageUrl}, ${imageUrl}, ${imageUrl}`;
-              return;
-            }
-          }
-          
-          // If no existing rule is found, insert a new one
-          styleSheet.insertRule(`body::before { background: linear-gradient(to bottom, rgba(240, 240, 240, 0.75), rgba(240, 240, 240, 0.75)), ${imageUrl}, ${imageUrl}, ${imageUrl}; }`, 0);
-        };
-        
-        reader.readAsDataURL(file);
+      // Function to update colors dynamically
+      function updateColor() {
+        const valueSpan = document.getElementById(`${this.id}-value`);
+        valueSpan.textContent = this.value;
+        document.documentElement.style.setProperty(`--${this.id}`, this.value);
       }
-    }
-    
-    // Function to send email with user options
-    function sendEmail() {
-      const backgroundColor = document.getElementById('text-color').value;
-      const accentColor = document.getElementById('accent').value;
-      const footerColor = document.getElementById('footer-background').value;
       
-      // Get the uploaded image file
-      const imgInput = document.getElementById('img');
-      const imageFile = imgInput.files[0];
+      // Function to update background image dynamically
+      function updateBackgroundImage() {
+        const fileInput = document.getElementById('img');
+        const file = fileInput.files[0];
+        
+        if (file) {
+          const reader = new FileReader();
+          
+          reader.onload = function (e) {
+            const imageUrl = `url('${e.target.result}')`;
+            
+            // Remove existing background image rules
+            const styleSheet = document.styleSheets[0];
+            const rules = styleSheet.rules || styleSheet.cssRules;
+            for (let i = 0; i < rules.length; i++) {
+              if (rules[i].selectorText === 'body::before') {
+                // Assuming the old background image is the first url() in the background property
+                rules[i].style.backgroundImage = `${imageUrl}, ${imageUrl}, ${imageUrl}`;
+                return;
+              }
+            }
+            
+            // If no existing rule is found, insert a new one
+            styleSheet.insertRule(`body::before { background: linear-gradient(to bottom, rgba(240, 240, 240, 0.75), rgba(240, 240, 240, 0.75)), ${imageUrl}, ${imageUrl}, ${imageUrl}; }`, 0);
+          };
+          
+          reader.readAsDataURL(file);
+        }
+      }
       
-      // Construct the email body
-      const emailBody = `
-      Background Color: ${backgroundColor}
+      // Function to copy a value to clipboard
+      function copyToClipboard(id) {
+        const value = document.getElementById(`${id}-value`).textContent;
+        navigator.clipboard.writeText(value).then(function () {
+          alert(`${id} value copied to clipboard: ${value}`);
+        }).catch(function (err) {
+          console.error('Unable to copy to clipboard', err);
+        });
+      }
+      
+      // Function to copy all values to clipboard
+      function copyAllValuesToClipboard() {
+        const backgroundColor = document.getElementById('text-color-value').textContent;
+        const accentColor = document.getElementById('accent-value').textContent;
+        const footerColor = document.getElementById('footer-background-value').textContent;
+        
+        // Get the uploaded image file
+        const imgInput = document.getElementById('img');
+        const imageFile = imgInput.files[0];
+        
+        // Construct the email body
+        const valuesToCopy = `
+      Main Color: ${backgroundColor}
       Accent Color: ${accentColor}
       Footer Color: ${footerColor}
-      If you have a new background image, attach it as a file to this email
-    `;
-      
-
-      
-      // Use your preferred method to send the email with attachment, for example:
-      const emailLink = `mailto:Farwalker3@icloud.com?subject=Watercolor Cardworks Colors&body=${encodeURIComponent(emailBody)}`;
-      window.location.href = emailLink;
-    }
-  </script>
-
+      `;
+        
+        navigator.clipboard.writeText(valuesToCopy).then(function () {
+          alert('Values copied to clipboard');
+        }).catch(function (err) {
+          console.error('Unable to copy values to clipboard', err);
+        });
+      }
+    </script>
   
   <!-- Side Cart -->
   <input id="sideCartToggle" class="sidemenu-toggle hidden" name="sideCart" type="checkbox"/>
