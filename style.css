@@ -136,11 +136,20 @@ nav a {
 }
 
 /* Card grid styles */
-#card-grid {
+.card-grid {
+  position: relative;
   display: grid;
+  margin-top: 5vh;
+  left: 10%;
+  width: calc(80% - 30px);
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 20px;
-  padding: 20px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 50px;
+  padding-bottom: 30px;
+  border-radius: 25px;
+  outline: 1px solid black;
 }
 
 .card {
@@ -155,11 +164,29 @@ nav a {
 
 .card:hover .image-overlay {
   transform: rotate(90deg);
-  top: 10%;
+  top: 18%;
   left: 0%;
   width: 100%;
   height: 70%;
   background-size: 100% 100%;
+}
+
+.GroupHeader {
+  font-family: var(--title-font);
+  position: absolute;
+  height: fit-content;
+  top: 10px;
+  left: 0;
+  width: calc(100% - 25px);
+  vertical-align: middle;
+  text-align: center;
+  grid-column: 1 / -1;
+  background-color: yellow;
+  color: var(--text-color);
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 18px;
+  border-radius: 25px;
 }
 
 .image-overlay {
@@ -175,22 +202,23 @@ nav a {
   transition: transform 0.5s ease;
 }
 
-.quick-view,
 .add-to-cart {
+  font-family: var(--title-font);
   position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: var(--text-color);
-  color: #fff;
+  width: fit-content;
+  height: fit-content;
+  bottom: -20px;
+  left: 10%;
+  background-color: yellow;
+  color: var(--text-color);
   padding: 5px 10px;
   cursor: pointer;
-  display: none;
+  font-size: 16px;
+  border-radius: 25px;
 }
 
-.card:hover .quick-view,
-.card:hover .add-to-cart {
-  display: block;
+.card-grid:hover {
+  outline: 5px solid black;
 }
 
 
@@ -395,8 +423,8 @@ footer {
 .main__content {
   font-size: 1.2rem;
   max-width: 65ch;
-  margin-top: 11rem;
-  margin-bottom: 6rem;
+  margin-top: 4rem;
+  margin-bottom: 3rem;
 }
 .main__content p {
   margin-bottom: 2em;
@@ -455,16 +483,23 @@ main{
   overflow: hidden;
 }
 
-.marquee {
-  white-space: nowrap;
-  overflow: hidden;
-  display: inline-block;
-  animation: marquee 100s linear infinite;
+/* Centering the navbar links */
+.container.navbar__links {
+  display: flex;
+  justify-content: center;
 }
 
-.marquee p {
-  display: inline-block;
-  margin: 0;
+/* Styling the navbar links */
+.container.navbar__links a {
+  margin: 0 10px; /* Adjust margin as needed */
+  text-decoration: none;
+  color: #333; /* Default color */
+  transition: color 0.3s ease; /* Smooth transition effect */
+}
+
+/* Changing color on hover */
+.container.navbar__links a:hover {
+  color: #ff6600; /* Change to desired highlight color */
 }
 
 @keyframes marquee {
