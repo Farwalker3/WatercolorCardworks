@@ -2,8 +2,7 @@
 
 /* Shared Colors */
 :root {
-  --background-gradient-start: rgba(240, 240, 240, 0.75);
-  --background-gradient-end: rgba(240, 240, 240, 0.75);
+  --body-color: #d6057fee;
   --accent-color: #a52256;
   --text-color: #d6057fee;
   --navbar-background: rgba(255, 255, 255, 0.25);
@@ -11,42 +10,16 @@
   --title-font: 'Pacifico', cursive;
   --navbar-font: monospace;
   --footer-font: Arial, sans-serif;
+  --add-to-cart-button-color: #80c49d;
+  --group-header-color: #FFFFFF;
 }
 
 body {
   margin: 0;
   font-family: var(--footer-font);
   position: relative; /* Add this line */
+  background-color: var(--body-color);
 }
-
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  background: linear-gradient(to bottom, rgba(240, 240, 240, 0.75), rgba(240, 240, 240, 0.75)),
-                url("HomepageBackground.tif"),
-                url("HomepageBackground.jpg"),
-                url("HomepageBackground.png");
-    background-size: cover;
-    animation: animateBackground 1000s linear infinite;
-    filter: saturate(4);
-  }
-
-  @keyframes animateBackground {
-    0% {
-      background-position: 0% 0%;
-    }
-    50% {
-      background-position: 0% 100%;
-    }
-    100% {
-      background-position: 0% 0%;
-    }
-  }
 
 /* Header styles */
 #navbar {
@@ -57,9 +30,7 @@ body::before {
   font-size: 9vw;
   font-weight: 700;
   position: relative;
-  background: url("WebsiteHeader.tif"),
-  url("WebsiteHeader.jpg"),
-  url("WebsiteHeader.png");
+  background: url("WebsiteHeader.webp");
   background-size: cover;
   background-position: center;
   background-color: rgba(255, 255, 255, 0.486);
@@ -116,6 +87,12 @@ body::before {
   margin-right: 10px;
 }
 
+/* Sticky behavior */
+.sticky {
+  position: sticky;
+  top: 10px;
+}
+
 /* Navigation styles */
 nav {
   background-color: var(--text-color);
@@ -149,7 +126,7 @@ nav a {
   padding-top: 50px;
   padding-bottom: 30px;
   border-radius: 25px;
-  outline: 1px solid black;
+  outline: 1px solid #d6ebdc;
 }
 
 .card {
@@ -181,7 +158,7 @@ nav a {
   vertical-align: middle;
   text-align: center;
   grid-column: 1 / -1;
-  background-color: yellow;
+  background-color: var(--group-header-color);
   color: var(--text-color);
   padding: 5px 10px;
   cursor: pointer;
@@ -209,7 +186,7 @@ nav a {
   height: fit-content;
   bottom: -20px;
   left: 10%;
-  background-color: yellow;
+  background-color: var(--add-to-cart-button-color);
   color: var(--text-color);
   padding: 5px 10px;
   cursor: pointer;
@@ -231,7 +208,7 @@ footer {
   padding-bottom: 1vw;
   padding-left: 0;
   padding-right: 0;
-  position: fixed;
+  position: absolute;
   bottom: 0;
   width: 100%;
 }
@@ -455,7 +432,49 @@ footer {
 }
 
 .color-picker {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.color-picker label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.color-picker input[type="color"] {
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  background: #f2f2f2;
+  cursor: pointer;
+  outline: none;
+}
+
+.color-picker input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.color-picker input[type="color"]::-webkit-color-swatch {
+  border: none;
+  border-radius: 5px;
+}
+
+.color-picker button {
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.color-picker button:hover {
+  background-color: #0056b3;
+}
+
+.color-picker span {
+  margin-left: 10px;
 }
 
 canvas {
@@ -510,6 +529,77 @@ main{
     transform: translate3d(-50%, 0, 0);
   }
 }
+
+/* Style for the side cart */
+.sidemenu--cart .sidemenu__body {
+  max-height: calc(100vh - 200px); /* Adjust the value as needed */
+  overflow-y: scroll; /* Change from auto to scroll */
+}
+
+/* Style for cart items */
+.cart-item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  padding: 15px;
+  border: 1px solid #eee;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.cart-item:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.cart-item > div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.cart-item .item-label {
+  font-weight: bold;
+  margin-right: 10px;
+  color: #333;
+}
+
+.cart-item .item-info {
+  margin-right: 10px;
+  color: #666;
+}
+
+.cart-item .quantity-button {
+  margin-right: 10px;
+  padding: 5px 10px;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cart-item .quantity-button:hover {
+  background-color: #ddd;
+}
+
+.cart-item .remove-from-cart {
+  margin-left: auto;
+  padding: 5px 10px;
+  background-color: #ff6347;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cart-item .remove-from-cart:hover {
+  background-color: #d14836;
+}
+
+
 
 @media only screen and (max-width: 600px) {
   

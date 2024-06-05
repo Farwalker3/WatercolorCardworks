@@ -41,11 +41,26 @@
             <span id="footer-background-value"></span>
             <button onclick="copyToClipboard('footer-background')">Copy</button>
           </div>
-          <!-- Image upload for background -->
-          <div>
-            <label for="img">Upload Background Image:</label>
-            <input type="file" id="img" name="img" accept="image/*">
-            <span id="img-value"></span>
+          <div class="color-picker">
+            <label for="body-color">Body Color:</label>
+            <input type="color" id="body-color">
+            <span id="body-color-value"></span>
+            <button onclick="copyToClipboard('body-color')">Copy</button>
+          </div>
+          <!-- Color picker for add to cart button color -->
+          <div class="color-picker">
+            <label for="add-to-cart-button-color">Add to Cart Button Color:</label>
+            <input type="color" id="add-to-cart-button-color">
+            <span id="add-to-cart-button-color-value"></span>
+            <button onclick="copyToClipboard('add-to-cart-button-color')">Copy</button>
+          </div>
+          
+          <!-- Color picker for group header color -->
+          <div class="color-picker">
+            <label for="group-header-color">Group Header Color:</label>
+            <input type="color" id="group-header-color">
+            <span id="group-header-color-value"></span>
+            <button onclick="copyToClipboard('group-header-color')">Copy</button>
           </div>
         </div>
         <div class="sidemenu__footer sidemenu__footer--cart">
@@ -148,6 +163,132 @@
           console.error('Unable to copy values to clipboard', err);
         });
       }
+      
+      document.addEventListener('DOMContentLoaded', function () {
+        // Event listener for add to cart buttons
+        const addToCartButtons = document.querySelectorAll('.add-to-cart');
+        addToCartButtons.forEach(button => {
+          button.addEventListener('click', function(event) {
+            addToCart(event);
+            toggleCart();
+            updateTotal(); // Update total price
+          });
+        });
+      });
+      
+      function toggleCart() {
+        const sideCart = document.getElementById('sideCart');
+        sideCart.classList.toggle('visible');
+        
+        const sideMenuToggle = document.getElementById('sideCartToggle');
+        sideMenuToggle.checked = !sideMenuToggle.checked; // Toggle the checked state
+      }
+
+      
+      function addToCart(event) {
+        const groupElement = event.target.closest('.card-grid');
+        const groupName = groupElement.querySelector('.GroupHeader').textContent.trim();
+        const price = getPriceForGroup(groupName);
+        const cartItemsContainer = document.getElementById('sideCartItems');
+        let cartIsEmpty = cartItemsContainer.querySelector('p');
+        
+        if (cartIsEmpty) {
+          cartItemsContainer.innerHTML = ''; // Remove "Your cart is empty" message
+        }
+        
+        const existingCartItem = cartItemsContainer.querySelector(`.cart-item[data-group="${groupName}"]`);
+        
+        if (existingCartItem) {
+          const quantityElement = existingCartItem.querySelector('.item-quantity-value');
+          const quantity = parseInt(quantityElement.textContent) + 1;
+          quantityElement.textContent = quantity;
+          existingCartItem.querySelector('.item-total-price').textContent = `$${(quantity * price).toFixed(2)}`;
+        } else {
+          const cartItem = document.createElement('div');
+          cartItem.classList.add('cart-item');
+          cartItem.setAttribute('data-group', groupName);
+          
+          cartItem.innerHTML = `
+  <div>
+    <span class="item-label">Item Name:</span>
+    <span class="item-name">${groupName}</span>
+  </div>
+  <div>
+    <span class="item-label">Item Price:</span>
+    <span class="item-price">$${price.toFixed(2)}</span>
+  </div>
+  <div>
+    <span class="item-label">Quantity:</span>
+    <span class="quantity-container">
+      <button class="quantity-button" onclick="changeQuantity(this, -1)">-</button>
+      <span class="item-quantity-value">1</span>
+      <button class="quantity-button" onclick="changeQuantity(this, 1)">+</button>
+    </span>
+  </div>
+  <div>
+    <span class="item-label">Total Price:</span>
+    <span class="item-total-price">$${price.toFixed(2)}</span>
+  </div>
+  <button class="remove-from-cart" onclick="removeFromCart(this)">Remove</button>
+`;
+          
+          cartItemsContainer.appendChild(cartItem);
+
+        }
+        updateTotal(); // Update total price
+      }
+      
+      function updateTotal() {
+        const cartItems = document.querySelectorAll('.cart-item');
+        let totalPrice = 0;
+        cartItems.forEach(item => {
+          const totalItemPrice = parseFloat(item.querySelector('.item-total-price').textContent.replace('$', ''));
+          totalPrice += totalItemPrice;
+        });
+        const checkoutButton = document.getElementById('checkoutBtn');
+        checkoutButton.textContent = `Checkout - Total: $${totalPrice.toFixed(2)}`;
+      }
+
+      
+      function changeQuantity(button, change) {
+        const cartItem = button.closest('.cart-item');
+        const quantityElement = cartItem.querySelector('.item-quantity-value');
+        const priceElement = cartItem.querySelector('.item-price');
+        const totalPriceElement = cartItem.querySelector('.item-total-price');
+        const price = parseFloat(priceElement.textContent.replace('$', ''));
+        let quantity = parseInt(quantityElement.textContent) + change;
+        
+        if (quantity < 1) quantity = 1; // Minimum quantity is 1
+        quantityElement.textContent = quantity;
+        totalPriceElement.textContent = `$${(quantity * price).toFixed(2)}`;
+        
+        updateTotal(); // Update total price
+      }
+      
+      function removeFromCart(button) {
+        const cartItem = button.closest('.cart-item');
+        cartItem.remove();
+        
+        const cartItemsContainer = document.getElementById('sideCartItems');
+        if (!cartItemsContainer.querySelector('.cart-item')) {
+          cartItemsContainer.innerHTML = '<p>Your cart is empty</p>';
+        }
+        
+        updateTotal(); // Update total price
+      }
+      
+      function getPriceForGroup(group) {
+        // Define prices for different groups
+        const prices = {
+          'Assorted': 10.00,  // Default price for Assorted greeting cards
+          'Farmers Friends': 15.00,
+          'Wild Strawberries': 12.00,
+          'Feathered Friends': 14.00,
+          'Holiday Cards': 20.00
+        };
+        return prices[group] || 0;  // Default price is 0 if group not found
+      }
+
     </script>
   
   <!-- Side Cart -->
@@ -160,12 +301,12 @@
           <label for="sideCartToggle" class="cursor-pointer button">Close</label>
         </div>
       </div>
-      <div class="sidemenu__body sidemenu__body--mobile container">
-        <p>Some content 🐠✨</p>
+      <div class="sidemenu__body sidemenu__body--mobile container" id="sideCartItems">
+        <p>Your cart is empty</p>
       </div>
       <div class="sidemenu__footer sidemenu__footer--cart">
         <div class="sidemenu__footer-content sidemenu__footer-content--mobile container">
-          <div class="sidemenu__footer__button button button--accent cursor-pointer" onclick="window.location='card.html';">Checkout</div>
+          <div id="checkoutBtn" class="sidemenu__footer__button button button--accent cursor-pointer">Checkout - Total: $0.00</div>
         </div>
       </div>
     </aside>
@@ -214,9 +355,9 @@
     <!-- Navbar -->
     <nav id="navbar">
       <div class="container navbar__container">
-        <label for="mobileMenuToggle" class="cursor-pointer button">Menu</label>
+        <label for="mobileMenuToggle" class="cursor-pointer button sticky">Menu</label>
         <span class="center-force">Maine<br>Cardworks</span>
-        <label for="sideCartToggle" class="cursor-pointer button">Cart</label>
+        <label for="sideCartToggle" class="cursor-pointer button sticky">Cart</label>
       </div>
     </nav>
     
@@ -364,245 +505,6 @@
   <footer>
     <span>Sitemap | Copyright © 2023 Maine Cardworks</span>
   </footer>
-
-  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="display:none">
-    <defs>
-      <filter id="squiggly">
-        <feTurbulence baseFrequency="0.22" numOctaves="3" result="noise" seed="0" />
-        <feDisplacementMap in="SourceGraphic" in2="noise" scale="7" />
-      </filter>
-    </defs>
-  </svg>
-  
-  <script>
-    console.clear();
-    
-    var twoPI = 2 * Math.PI;
-    
-    var canvas = document.createElement('canvas'),
-    ctx = canvas.getContext('2d');
-    
-    
-    var width = canvas.width = window.innerWidth,
-    height = canvas.height = window.innerHeight;
-    
-    window.addEventListener('resize',function(){
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    });
-    
-    document.body.appendChild(canvas);
-    
-    /* ///////////////////////////////////////// */
-    
-    function randomWiggle(wiggle) {
-      return ( Math.random() * wiggle ) * ( Math.random() < 0.5 ? -1 : 1 )
-    }
-    
-    
-    var color = -25;
-    function randomColor(){
-      color = Math.floor( ( color % 360 ) + 25 + 15 * Math.random() );
-      return 'hsl(' + color + ', 50%, 55%)';
-    }
-    
-    
-    /* //////////////////////////////////////// */
-    
-    function WaterColor(options) {
-      if (!(this instanceof WaterColor)) { return new WaterColor(options); }
-      
-      for (var key in options) {
-        if (options.hasOwnProperty(key)) { this[key] = options[key]; }
-      }
-      
-      if ( !this.fill ) { this.fill = randomColor(); }
-      this.c = Math.floor( Math.random() * 2 );
-      this.render();
-    }
-    
-    WaterColor.prototype = {
-      sides: 6,
-      x: 20,
-      y: 20,
-      ctx: false,
-      
-      speed: 0.3,
-      
-      maxPoints: 3000,
-      maxRender: 5,
-      
-      scale: false,
-      
-      buildPoints(){
-        
-        var wiggle = this.size * 0.15,
-        rotation = 0,
-        x = -this.size, 
-        y = 0,
-        horizontal = Math.random() > 0.5,
-        start = [ x, y ];
-        
-        this.points = [ start ];
-        
-        for (; rotation < twoPI; rotation += this.speed) {
-          
-          x += 
-          this.size 
-          * this.speed
-          * Math.sin(rotation)
-          * ( horizontal ? 1 : 0.7 )
-          + randomWiggle( wiggle ); // * Math.cos( (rotation/twoPI) * twoPI ) );
-          
-          y += 
-          this.size
-          * this.speed
-          * Math.cos(rotation)
-          * ( horizontal ? 0.7 : 1 )
-          + randomWiggle( wiggle );// * Math.cos( (rotation/twoPI) * twoPI) );
-          
-          this.points.push([ x, y ]);
-        }
-        
-        
-        this.points.push( start );
-        
-        this.originalPoints = this.points;
-        return this.points;
-      },
-      
-      expandPoints(){
-        
-        if ( !this.points ) { return this.buildPoints(); }
-        
-        if ( this.points.length > this.maxPoints ) { return false; }
-        
-        var wiggle = this.size * 0.05;
-        
-        var p = [],
-        i = 0,
-        len = this.points.length - 1,
-        x, y, x2, y2;
-        
-        for ( ; i < len; i++) {
-          y = this.points[i][1];
-          x = this.points[i][0];
-          y2 = this.points[i + 1][1];
-          x2 = this.points[i + 1][0];
-          p.push(
-            [x, y],
-            [
-              (( x2 + x )/2) + randomWiggle(wiggle),  
-              (( y2 + y )/2) + randomWiggle(wiggle)
-            ],
-            [x2, y2]
-          );
-        }
-        
-        this.points = p;
-        
-        return true;
-        
-      },
-      
-      c: 0,
-      
-      render: function(){
-        this.c++;
-        if ( this.c < (this.maxRender * 3) ) { requestAnimationFrame(this.render.bind(this)); }
-        if ( this.c % 3 == 0 ) { this.draw(this.c / 3); }
-      },
-      
-      draw: function(c) {
-        
-        if (this.ctx) {
-          
-          while ( this.expandPoints() ){}
-          
-          var ctx = this.ctx;
-          
-          var itr = (c/this.maxRender);
-          
-          ctx.setTransform(1, 0, 0, 1, 0, 0);
-          
-          ctx.globalCompositeOperation = 'hard-light';// 'xor';
-          ctx.globalAlpha = 0.25 - ( itr * 0.1 );
-          
-          ctx.translate( this.x, this.y );
-          if ( this.scale ) { ctx.scale( 1 + itr * 0.2, 1 + itr * 0.2 ); }
-          
-          ctx.beginPath();
-          ctx.moveTo(this.points[0][0], this.points[0][1]); //this.x + this.size, this.y);
-          
-          for (var i = 0, len = this.points.length; i < len; i++) {
-            ctx.lineTo( this.points[i][0], this.points[i][1] );
-          }
-          
-          ctx.closePath();
-          ctx.fillStyle = this.fill;
-          ctx.fill();
-          
-          this.points = this.originalPoints;
-          
-        }
-        
-        return this;
-      }
-    };
-    
-    
-    
-    var color = 0;
-    function makeWatercolor(e){
-      
-      var x = width * Math.random(),
-      y = height * Math.random();
-      
-      if ( e ) {
-        e = e.touches ? e.touches[0] : e;
-        x = e.clientX || e.x;
-        y = e.clientY || e.y;
-      }
-      
-      ctx.globalAlpha = 0.02;
-      ctx.setTransform(1, 0, 0, 1, 0, 0);
-      ctx.fillStyle = '#FFF';
-      ctx.fillRect(0, 0, width, height);
-      
-      new WaterColor({
-        ctx: ctx,
-        size: Math.min(width,height) * ( 0.2 + Math.random() * 0.1 ),
-        x: x,
-        y: y,
-        scale: true
-      })
-      
-    }
-    
-    
-    document.addEventListener('click', makeWatercolor );
-    document.addEventListener('touchstart', makeWatercolor );
-    
-    
-    /* ////////////////////////////////////////////////////////////////////////// */
-    
-    
-    var halfWidth = width / 2,
-    halfHeight = height / 2
-    
-    for (var i = 0, len = 10; i < len; i++ ){
-      
-      new WaterColor({
-        ctx: ctx,
-        size: width * ( 0.7 + Math.random() * 0.1 ),
-        x: halfWidth + ( Math.cos( (i / len) * twoPI ) * halfWidth ), 
-        y: halfHeight + ( Math.sin( (i / len) * twoPI ) * halfHeight ) 
-      });
-      
-    }
-    
-    /* */
-  </script>
 
 </body>
 </html>
