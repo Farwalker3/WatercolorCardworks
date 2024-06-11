@@ -1,13 +1,17 @@
 @import url('https://fonts.googleapis.com/css?family=Pacifico');
+@font-face {
+  font-family: 'Algerian Regular';
+  src: url('AlgerianRegular.ttf');
+}
 
 /* Shared Colors */
 :root {
-  --body-color: #d6057fee;
-  --accent-color: #a52256;
-  --text-color: #d6057fee;
+  --body-color: #FFFFFF;
+  --accent-color: #1F6030;
+  --text-color: #204030ee;
   --navbar-background: rgba(255, 255, 255, 0.25);
   --footer-background: #ded3d3;
-  --title-font: 'Pacifico', cursive;
+  --title-font: 'Algerian Regular', cursive;
   --navbar-font: monospace;
   --footer-font: Arial, sans-serif;
   --add-to-cart-button-color: #80c49d;
@@ -28,19 +32,19 @@ body {
   color: var(--text-color);
   font-family: var(--title-font);
   font-size: 9vw;
-  font-weight: 700;
   position: relative;
   background: url("WebsiteHeader.webp");
   background-size: cover;
   background-position: center;
-  background-color: rgba(255, 255, 255, 0.486);
+  background-color: rgba(255, 255, 255, 0.15);
   background-blend-mode: overlay;
+
 }
 
 #navbar .navbar__container {
   padding: 1.75% 2%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 
@@ -245,7 +249,7 @@ footer {
 
 /* CSS variables */
 :root {
-  --accent: #a52256;
+  --accent: #1F6030;
   --dark: rgb(29 30 34);
   --shadow: rgba(0,0,0,0.5);
 }
@@ -265,6 +269,7 @@ footer {
 }
 
 .button {
+  font-family: var(--title-font);
   padding: 0.3em 0.6em;
   background: #fff;
   color: var(--accent);
@@ -397,6 +402,11 @@ footer {
   transition: opacity ease 0.3s;
 }
 
+.sidemenu__footer-content--mobile {
+  display: flex;
+  justify-content: center;
+}
+
 .main__content {
   font-size: 1.2rem;
   max-width: 65ch;
@@ -503,22 +513,28 @@ main{
 }
 
 /* Centering the navbar links */
-.container.navbar__links {
+.navbar__links {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 /* Styling the navbar links */
-.container.navbar__links a {
+.navbar__links a {
   margin: 0 10px; /* Adjust margin as needed */
   text-decoration: none;
-  color: #333; /* Default color */
+  color: #FFF; /* Default color */
   transition: color 0.3s ease; /* Smooth transition effect */
 }
 
 /* Changing color on hover */
-.container.navbar__links a:hover {
+.navbar__links a:hover {
   color: #ff6600; /* Change to desired highlight color */
+}
+
+/* Styling the labels */
+.navbar__links label {
+  margin: 0 10px; /* Adjust margin as needed */
 }
 
 @keyframes marquee {
@@ -567,7 +583,7 @@ main{
 
 .cart-item .item-info {
   margin-right: 10px;
-  color: #666;
+  color: #555;
 }
 
 .cart-item .quantity-button {
@@ -599,7 +615,13 @@ main{
   background-color: #d14836;
 }
 
+.mobile-line-break {
+  display: none;
+}
 
+.desktop-space {
+  display: inline;
+}
 
 @media only screen and (max-width: 600px) {
   
@@ -630,4 +652,12 @@ main{
     margin-left: auto;
     margin-right: auto;
   }
+  
+  .desktop-space {
+      display: none;
+    }
+  
+  .mobile-line-break {
+      display: inline;
+    }
 }

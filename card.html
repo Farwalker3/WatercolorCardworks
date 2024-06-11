@@ -2,8 +2,8 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Card Page</title>
-		<link rel="icon" href="flower-playing-cards.svg">
+		<title>payment Page</title>
+		<link rel="icon" href="flower-playing-payments.svg">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
@@ -15,12 +15,8 @@
 			}
 			
 			html {
-				--card-color: #cacaca;
+				--payment-color: #cacaca;
 				--text-color: #e1e1e1;
-			}
-			
-			body {
-				font-family: "Roboto", sans-serif;
 			}
 			
 			.tips {
@@ -34,7 +30,8 @@
 				padding: 2px 15px;
 			}
 			
-			.container {
+			.paymentcontainer {
+				font-family: "Roboto", sans-serif;
 				position: absolute;
 				display: flex;
 				flex-direction: row;
@@ -46,11 +43,11 @@
 				right: 0;
 				width: 680px;
 			}
-			.container .col1 {
+			.paymentcontainer .col1 {
 				perspective: 1000;
 				transform-style: preserve-3d;
 			}
-			.container .col1 .card {
+			.paymentcontainer .col1 .payment {
 				position: relative;
 				width: 420px;
 				height: 250px;
@@ -61,9 +58,9 @@
 				transition: all 1s;
 				transform-style: preserve-3d;
 			}
-			.container .col1 .card .front {
+			.paymentcontainer .col1 .payment .front {
 				position: absolute;
-				background: var(--card-color);
+				background: var(--payment-color);
 				border-radius: 17px;
 				padding: 50px;
 				width: 100%;
@@ -78,18 +75,18 @@
 				-ms-backface-visibility: hidden;
 				backface-visibility: hidden;
 			}
-			.container .col1 .card .front .type {
+			.paymentcontainer .col1 .payment .front .type {
 				position: absolute;
 				width: 75px;
 				height: 45px;
 				top: 20px;
 				right: 20px;
 			}
-			.container .col1 .card .front .type img {
+			.paymentcontainer .col1 .payment .front .type img {
 				width: 100%;
 				float: right;
 			}
-			.container .col1 .card .front .card_number {
+			.paymentcontainer .col1 .payment .front .payment_number {
 				position: absolute;
 				font-size: 26px;
 				font-weight: 500;
@@ -99,7 +96,7 @@
 				word-spacing: 3px;
 				transition: color 0.5s;
 			}
-			.container .col1 .card .front .date {
+			.paymentcontainer .col1 .payment .front .date {
 				position: absolute;
 				bottom: 40px;
 				right: 55px;
@@ -108,7 +105,7 @@
 				color: var(--text-color);
 				transition: color 0.5s;
 			}
-			.container .col1 .card .front .date .date_value {
+			.paymentcontainer .col1 .payment .front .date .date_value {
 				font-size: 12px;
 				position: absolute;
 				margin-left: 22px;
@@ -117,14 +114,14 @@
 				font-weight: 500;
 				transition: color 0.5s;
 			}
-			.container .col1 .card .front .date:after {
+			.paymentcontainer .col1 .payment .front .date:after {
 				content: "MONTH / YEAR";
 				position: absolute;
 				display: block;
 				font-size: 7px;
 				margin-left: 20px;
 			}
-			.container .col1 .card .front .date:before {
+			.paymentcontainer .col1 .payment .front .date:before {
 				content: "valid \athru";
 				position: absolute;
 				display: block;
@@ -132,29 +129,29 @@
 				white-space: pre;
 				margin-top: 8px;
 			}
-			.container .col1 .card .front .fullname {
+			.paymentcontainer .col1 .payment .front .fullname {
 				position: absolute;
 				font-size: 20px;
 				bottom: 40px;
 				color: var(--text-color);
 				transition: color 0.5s;
 			}
-			.container .col1 .card .back {
+			.paymentcontainer .col1 .payment .back {
 				position: absolute;
 				width: 100%;
 				border-radius: 17px;
 				height: 100%;
-				background: var(--card-color);
+				background: var(--payment-color);
 				transform: rotateY(180deg);
 			}
-			.container .col1 .card .back .magnetic {
+			.paymentcontainer .col1 .payment .back .magnetic {
 				position: absolute;
 				width: 100%;
 				height: 50px;
 				background: rgba(0, 0, 0, 0.7);
 				margin-top: 25px;
 			}
-			.container .col1 .card .back .bar {
+			.paymentcontainer .col1 .payment .back .bar {
 				position: absolute;
 				width: 80%;
 				height: 37px;
@@ -162,7 +159,7 @@
 				left: 10px;
 				margin-top: 100px;
 			}
-			.container .col1 .card .back .seccode {
+			.paymentcontainer .col1 .payment .back .seccode {
 				font-size: 13px;
 				color: var(--text-color);
 				font-weight: 500;
@@ -170,11 +167,11 @@
 				top: 100px;
 				right: 40px;
 			}
-			.container .col1 .card .back .chip {
+			.paymentcontainer .col1 .payment .back .chip {
 				bottom: 45px;
 				left: 10px;
 			}
-			.container .col1 .card .back .disclaimer {
+			.paymentcontainer .col1 .payment .back .disclaimer {
 				position: absolute;
 				width: 65%;
 				left: 80px;
@@ -182,7 +179,7 @@
 				font-size: 8px;
 				bottom: 55px;
 			}
-			.container .col2 input {
+			.paymentcontainer .col2 input {
 				display: block;
 				width: 260px;
 				height: 30px;
@@ -196,20 +193,20 @@
 				border: none;
 				transition: background 0.5s;
 			}
-			.container .col2 input:focus {
+			.paymentcontainer .col2 input:focus {
 				outline-width: 0;
 				background: rgba(31, 134, 252, 0.15);
 				transition: background 0.5s;
 			}
-			.container .col2 label {
+			.paymentcontainer .col2 label {
 				padding-left: 8px;
 				font-size: 15px;
 				color: #444;
 			}
-			.container .col2 .ccv {
+			.paymentcontainer .col2 .ccv {
 				width: 40%;
 			}
-			.container .col2 .buy {
+			.paymentcontainer .col2 .buy {
 				width: 260px;
 				height: 50px;
 				position: relative;
@@ -223,10 +220,10 @@
 				transition: background 0.4s;
 				cursor: pointer;
 			}
-			.container .col2 .buy i {
+			.paymentcontainer .col2 .buy i {
 				font-size: 20px;
 			}
-			.container .col2 .buy:hover {
+			.paymentcontainer .col2 .buy:hover {
 				background: #3594A9;
 				transition: background 0.4s;
 			}
@@ -252,15 +249,15 @@
 			}
 		</style>
 		<script>
-			// 4: VISA, 51 -> 55: MasterCard, 36-38-39: DinersClub, 34-37: American Express, 65: Discover, 5019: dankort
+			// 4: VISA, 51 -> 55: Masterpayment, 36-38-39: DinersClub, 34-37: American Express, 65: Discover, 5019: dankort
 			
 			
 			$(function(){
 				
-				var cards = [{
-					nome: "mastercard",
+				var payments = [{
+					nome: "masterpayment",
 					colore: "#0061A8",
-					src: "https://upload.wikimedia.org/wikipedia/commons/0/04/Mastercard-logo.png"
+					src: "https://upload.wikimedia.org/wikipedia/commons/0/04/Masterpayment-logo.png"
 				}, {
 					nome: "visa",
 					colore: "#E2CB38",
@@ -276,7 +273,7 @@
 				}, {
 					nome: "discover",
 					colore: "#86B8CF",
-					src: "https://lendedu.com/wp-content/uploads/2016/03/discover-it-for-students-credit-card.jpg"
+					src: "https://lendedu.com/wp-content/uploads/2016/03/discover-it-for-students-credit-payment.jpg"
 				}, {
 					nome: "dankort",
 					colore: "#0061A8",
@@ -287,18 +284,18 @@
 				var html = document.getElementsByTagName('html')[0];
 				var number = "";
 				
-				var selected_card = -1;
+				var selected_payment = -1;
 				
 				$(document).click(function(e){
 					if(!$(e.target).is(".ccv") || !$(e.target).closest(".ccv").length){
-						$(".card").css("transform", "rotatey(0deg)");
+						$(".payment").css("transform", "rotatey(0deg)");
 						$(".seccode").css("color", "var(--text-color)");
 					}
 					if(!$(e.target).is(".expire") || !$(e.target).closest(".expire").length){
 						$(".date_value").css("color", "var(--text-color)");
 					}
 					if(!$(e.target).is(".number") || !$(e.target).closest(".number").length){
-						$(".card_number").css("color", "var(--text-color)");
+						$(".payment_number").css("color", "var(--text-color)");
 					}
 					if(!$(e.target).is(".inputname") || !$(e.target).closest(".inputname").length){
 						$(".fullname").css("color", "var(--text-color)");
@@ -306,44 +303,44 @@
 				});
 				
 				
-				//Card number input
+				//payment number input
 				$(".number").keyup(function(event){
-					$(".card_number").text($(this).val());
+					$(".payment_number").text($(this).val());
 					number = $(this).val();
 					
 					if(parseInt(number.substring(0, 2)) > 50 && parseInt(number.substring(0, 2)) < 56){
-						selected_card = 0;
+						selected_payment = 0;
 					}else if(parseInt(number.substring(0, 1)) == 4){
-						selected_card = 1;  
+						selected_payment = 1;  
 					}else if(parseInt(number.substring(0, 2)) == 36 || parseInt(number.substring(0, 2)) == 38 || parseInt(number.substring(0, 2)) == 39){
-						selected_card = 2;     
+						selected_payment = 2;     
 					}else if(parseInt(number.substring(0, 2)) == 34 || parseInt(number.substring(0, 2)) == 37){
-						selected_card = 3; 
+						selected_payment = 3; 
 					}else if(parseInt(number.substring(0, 2)) == 65){
-						selected_card = 4; 
+						selected_payment = 4; 
 					}else if(parseInt(number.substring(0, 4)) == 5019){
-						selected_card = 5; 
+						selected_payment = 5; 
 					}else{
-						selected_card = -1; 
+						selected_payment = -1; 
 					}
 					
-					if(selected_card != -1){
-						html.setAttribute("style", "--card-color: " + cards[selected_card].colore);  
-						$(".bankid").attr("src", cards[selected_card].src).show();
+					if(selected_payment != -1){
+						html.setAttribute("style", "--payment-color: " + payments[selected_payment].colore);  
+						$(".bankid").attr("src", payments[selected_payment].src).show();
 					}else{
-						html.setAttribute("style", "--card-color: #cecece");
+						html.setAttribute("style", "--payment-color: #cecece");
 						$(".bankid").attr("src", "").hide();
 					}
 					
-					if($(".card_number").text().length === 0){
-						$(".card_number").html("&#x25CF;&#x25CF;&#x25CF;&#x25CF; &#x25CF;&#x25CF;&#x25CF;&#x25CF; &#x25CF;&#x25CF;&#x25CF;&#x25CF; &#x25CF;&#x25CF;&#x25CF;&#x25CF;");
+					if($(".payment_number").text().length === 0){
+						$(".payment_number").html("&#x25CF;&#x25CF;&#x25CF;&#x25CF; &#x25CF;&#x25CF;&#x25CF;&#x25CF; &#x25CF;&#x25CF;&#x25CF;&#x25CF; &#x25CF;&#x25CF;&#x25CF;&#x25CF;");
 					}
 					
 				}).focus(function(){
-					$(".card_number").css("color", "white");
+					$(".payment_number").css("color", "white");
 				}).on("keydown input", function(){
 					
-					$(".card_number").text($(this).val());
+					$(".payment_number").text($(this).val());
 					
 					if(event.key >= 0 && event.key <= 9){
 						if($(this).val().length === 4 || $(this).val().length === 9 || $(this).val().length === 14){
@@ -365,7 +362,7 @@
 				
 				//Security code Input
 				$(".ccv").focus(function(){
-					$(".card").css("transform", "rotatey(180deg)");
+					$(".payment").css("transform", "rotatey(180deg)");
 					$(".seccode").css("color", "white");
 				}).keyup(function(){
 					$(".seccode").text($(this).val());
@@ -373,7 +370,7 @@
 						$(".seccode").html("&#x25CF;&#x25CF;&#x25CF;");
 					}
 				}).focusout(function() {
-					$(".card").css("transform", "rotatey(0deg)");
+					$(".payment").css("transform", "rotatey(0deg)");
 					$(".seccode").css("color", "var(--text-color)");
 				});
 				
@@ -414,18 +411,18 @@
 	</head>
 	<body>
 		<div class="tips">
-			Payment card number: (4) VISA, (51 -> 55) MasterCard, (36-38-39) DinersClub, (34-37) American Express, (65) Discover, (5019) dankort
+			Payment payment number: (4) VISA, (51 -> 55) Masterpayment, (36-38-39) DinersClub, (34-37) American Express, (65) Discover, (5019) dankort
 		</div>
 		
-		<div class="container">
+		<div class="paymentcontainer">
 			<div class="col1">
-				<div class="card">
+				<div class="payment">
 					<div class="front">
 						<div class="type">
 							<img class="bankid"/>
 						</div>
 						<span class="chip"></span>
-						<span class="card_number">&#x25CF;&#x25CF;&#x25CF;&#x25CF; &#x25CF;&#x25CF;&#x25CF;&#x25CF; &#x25CF;&#x25CF;&#x25CF;&#x25CF; &#x25CF;&#x25CF;&#x25CF;&#x25CF; </span>
+						<span class="payment_number">&#x25CF;&#x25CF;&#x25CF;&#x25CF; &#x25CF;&#x25CF;&#x25CF;&#x25CF; &#x25CF;&#x25CF;&#x25CF;&#x25CF; &#x25CF;&#x25CF;&#x25CF;&#x25CF; </span>
 						<div class="date"><span class="date_value">MM / YYYY</span></div>
 						<span class="fullname">FULL NAME</span>
 					</div>
@@ -433,14 +430,14 @@
 						<div class="magnetic"></div>
 						<div class="bar"></div>
 						<span class="seccode">&#x25CF;&#x25CF;&#x25CF;</span>
-						<span class="chip"></span><span class="disclaimer">This card is property of Random Bank of Random corporation. <br> If found please return to Random Bank of Random corporation - 21968 Paris, Verdi Street, 34 </span>
+						<span class="chip"></span><span class="disclaimer">This payment is property of Random Bank of Random corporation. <br> If found please return to Random Bank of Random corporation - 21968 Paris, Verdi Street, 34 </span>
 					</div>
 				</div>
 			</div>
 			<div class="col2">
-				<label>Card Number</label>
-				<input class="number" type="text" ng-model="ncard" maxlength="19" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/>
-				<label>Cardholder name</label>
+				<label>payment Number</label>
+				<input class="number" type="text" ng-model="npayment" maxlength="19" onkeypress='return event.charCode >= 48 && event.charCode <= 57'/>
+				<label>paymentholder name</label>
 				<input class="inputname" type="text" placeholder=""/>
 				<label>Expiry date</label>
 				<input class="expire" type="text" placeholder="MM / YYYY"/>
