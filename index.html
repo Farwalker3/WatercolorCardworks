@@ -7,6 +7,109 @@
   <link rel="icon" href="flower-playing-cards.svg">
   <title>Maine Cardworks</title>
   <script src="script.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+  <script>
+    let allCardsData = [];
+    
+    async function fetchCSVData() {
+      try {
+        const response = await fetch('https://res.cloudinary.com/kodair/raw/upload/MaineCardworks/cards.csv');
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
+        }
+        const csvData = await response.text();
+        const jsonData = Papa.parse(csvData, { header: true }).data;
+        return jsonData;
+      } catch (error) {
+        console.error(error);
+        return [];
+      }
+    }
+    
+    async function initializeApp() {
+      const searchInput = document.getElementById('searchInput');
+      searchInput.addEventListener('input', handleSearch);
+      
+      allCardsData = await fetchCSVData();
+      displayCards(allCardsData);
+    }
+    
+    async function handleSearch() {
+      const searchInput = document.getElementById('searchInput').value.toLowerCase();
+      const filteredCards = allCardsData.filter(card =>
+        card.CardType.toLowerCase().includes(searchInput) ||
+        card.BoxName.toLowerCase().includes(searchInput)
+      );
+      displayCards(filteredCards);
+    }
+    
+    function displayCards(cardsList) {
+      const mainContent = document.querySelector('.main');
+      
+      if (mainContent === null) {
+        console.error('Main content container not found.');
+        return;
+      }
+      
+      mainContent.innerHTML = ''; // Clear previous content
+      
+      if (cardsList.length === 0) {
+        const errorMessage = document.createElement('div');
+        errorMessage.innerText = 'No cards found.';
+        mainContent.appendChild(errorMessage);
+        return;
+      }
+      
+      const boxes = {};
+      
+      cardsList.forEach(card => {
+        if (card.Available.toLowerCase() === 'false') return;
+        
+        const boxName = card.BoxName;
+        if (!boxes[boxName]) {
+          boxes[boxName] = [];
+        }
+        boxes[boxName].push(card);
+      });
+      
+      Object.entries(boxes).forEach(([boxName, cards]) => {
+        const cardGrid = document.createElement('div');
+        cardGrid.classList.add('card-grid');
+        cardGrid.id = cards[0].BoxIdentifier; // use BoxIdentifier as ID
+        
+        const groupHeader = document.createElement('div');
+        groupHeader.classList.add('GroupHeader');
+        groupHeader.innerText = boxName;
+        
+        cardGrid.appendChild(groupHeader);
+        
+        cards.forEach(card => {
+          const count = parseInt(card.Count);
+          for (let i = 0; i < count; i++) {
+            const cardElement = document.createElement('div');
+            cardElement.classList.add('card');
+            
+            const background = document.createElement('div');
+            background.classList.add('image-overlay');
+            background.style.backgroundImage = `url(${card.BackgroundImage})`;
+            
+            cardElement.appendChild(background);
+            cardGrid.appendChild(cardElement);
+          }
+        });
+        
+        // Add "Add to Cart" section
+        const addToCart = document.createElement('div');
+        addToCart.classList.add('add-to-cart');
+        addToCart.innerText = 'Add to Cart';
+        cardGrid.appendChild(addToCart);
+        
+        mainContent.appendChild(cardGrid);
+      });
+    }
+    
+    document.addEventListener('DOMContentLoaded', initializeApp);
+  </script>
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
@@ -151,133 +254,8 @@
       <label for="sideCartToggle" class="cursor-pointer button sticky">Cart</label>
     </div>
   </nav>
-
-<div class="card-grid" id="Group1">
-  <!-- GroupHeader -->
-  <div class="GroupHeader">Assorted</div>
-  <!-- Card 1 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 2 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 3 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 4 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 5 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 6 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 7 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 8 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 9 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 10 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Add To Cart -->
-  <div class="add-to-cart">Add to Cart</div>
-</div>
-
-<div class="card-grid" id="Group2">
-  <!-- GroupHeader -->
-  <div class="GroupHeader">Farmers Friends</div>
-  <!-- Card 1 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 2 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 3 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 4 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 5 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Add To Cart -->
-  <div class="add-to-cart">Add to Cart</div>
-</div>
-  
-<div class="card-grid" id="Group3">
-  <!-- GroupHeader -->
-  <div class="GroupHeader">Wild Strawberries</div>
-  <!-- Card 1 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 2 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 3 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 4 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 5 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 6 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 7 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 8 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 9 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 10 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Add To Cart -->
-  <div class="add-to-cart">Add to Cart</div>
-</div>
-  
-<div class="card-grid" id="Group4">
-  <!-- GroupHeader -->
-  <div class="GroupHeader">Feathered Friends</div>
-  <!-- Card 1 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 2 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 3 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 4 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 5 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 6 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 7 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 8 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 9 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 10 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Add To Cart -->
-  <div class="add-to-cart">Add to Cart</div>
-</div>
-  
-<div class="card-grid" id="Group5">
-  <!-- GroupHeader -->
-  <div class="GroupHeader">Holiday Cards</div>
-  <!-- Card 1 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 2 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 3 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 4 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 5 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 6 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 7 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 8 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 9 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Card 10 -->
-  <div class="card"><div class="image-overlay"></div></div>
-  <!-- Add To Cart -->
-  <div class="add-to-cart">Add to Cart</div>
-</div>
-  
-<main><div class="main__content container center"></div></main>
+<input type="text" id="searchInput" placeholder="Search...">
+<main><div class="main container center"></div></main>
 
 <footer>
   <span>Sitemap | Copyright © 2023 Maine Cardworks</span>
