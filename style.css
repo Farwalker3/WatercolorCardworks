@@ -1,21 +1,31 @@
 @import url('https://fonts.googleapis.com/css?family=Pacifico');
 @font-face {
+  /*
   font-family: 'Algerian Regular';
   src: url('AlgerianRegular.ttf');
+  */
+  font-family: 'High Tower Text';
+  src: url('HTOWERT.TTF');
 }
 
 /* Shared Colors */
 :root {
   --body-color: #FFFFFF;
   --accent-color: #1F6030;
+  /*
   --text-color: #204030ee;
+  */
+  --text-color: #CCFFD9ee;
   --navbar-background: rgba(255, 255, 255, 0.25);
   --footer-background: #ded3d3;
-  --title-font: 'Algerian Regular', cursive;
+  --title-font: 'High Tower Text', cursive;
   --navbar-font: monospace;
   --footer-font: Arial, sans-serif;
   --add-to-cart-button-color: #80c49d;
+  /*
   --group-header-color: #FFFFFF;
+  */
+  --group-header-color: #204030ee;
 }
 
 body {
@@ -33,19 +43,23 @@ body {
   font-family: var(--title-font);
   font-size: 9vw;
   position: relative;
-  background: url("WebsiteHeader.webp");
+  background: url("NewHeader.webp");
   background-size: cover;
-  background-position: center;
+  background-position: center top;
   background-color: rgba(255, 255, 255, 0.15);
   background-blend-mode: overlay;
-
 }
 
 #navbar .navbar__container {
-  padding: 1.75% 2%;
+  padding: 5vw 2%;
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: 0.3s;
+  }
+
+#navbar .navbar__container:active {
+  padding: 5vw 2% 25vw 2%;
 }
 
 .centeredElement {
@@ -100,7 +114,7 @@ body {
 /* Navigation styles */
 nav {
   background-color: var(--text-color);
-  color: #fff;
+  color: #204030ee;
   padding: 1%;
   position: sticky;
   top: 0;
@@ -110,7 +124,7 @@ nav {
 nav a {
   font-family: var(--navbar-font);
   font-size: 15px;
-  color: #fff;
+  color: #204030ee;
   text-decoration: none;
   margin: 0 1.25%;
   text-transform: uppercase;
@@ -526,7 +540,7 @@ main{
 .navbar__links a {
   margin: 0 10px; /* Adjust margin as needed */
   text-decoration: none;
-  color: #FFF; /* Default color */
+  color: #204030ee; /* Default color */
   transition: color 0.3s ease; /* Smooth transition effect */
 }
 
@@ -643,6 +657,10 @@ main{
   border-color: rgba(100, 200, 250, 0.9);
 }
 
+.about__img {
+  width: 50%;
+}
+
 @media only screen and (max-width: 600px) {
   
   .button {
@@ -680,4 +698,12 @@ main{
   .mobile-line-break {
       display: inline;
     }
+    
+    #navbar .navbar__container {
+      padding: 1vw 2%;
+    }
+  
+  #navbar .navbar__container:active {
+    padding: 1vw 2% 20vw 2%;
+  }
 }
