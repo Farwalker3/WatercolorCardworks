@@ -88,6 +88,8 @@
         });
       }
       
+/* Add To Cart
+      
       document.addEventListener('DOMContentLoaded', function () {
         // Event listener for add to cart buttons
         const addToCartButtons = document.querySelectorAll('.add-to-cart');
@@ -212,3 +214,5 @@
         };
         return prices[group] || 0;  // Default price is 0 if group not found
       }
+
+*/
