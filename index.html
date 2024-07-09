@@ -2,12 +2,28 @@
 <html lang="en">
 
 <head>
+  <!-- Page info -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="flower-playing-cards.svg">
   <title>Maine Cardworks</title>
+  <!-- Preload fonts -->
+  <link rel="preload" href="https://fonts.googleapis.com/css?family=Pacifico" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="HTOWERT.TTF" as="font" type="font/ttf" crossorigin="anonymous">
+  <!-- Preload images -->
+  <link rel="preload" href="NewHeader.webp" as="image">
+  <link rel="preload" href="envelope.svg" as="image">
+  <!-- Scripts -->
   <script src="script.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+  <script>
+    window.SnipcartSettings = {
+      publicApiKey: 'NjY0MDM1MDYtZjBlMy00NjgxLWFkMjktNDZkMDdjODM0ZWY1NjM4NTQ4NDAzODE5NzY1NTMx',
+      loadStrategy: 'on-user-interaction',
+    };
+    
+    (()=>{var c,d;(d=(c=window.SnipcartSettings).version)!=null||(c.version="3.0");var s,S;(S=(s=window.SnipcartSettings).timeoutDuration)!=null||(s.timeoutDuration=2750);var l,p;(p=(l=window.SnipcartSettings).domain)!=null||(l.domain="cdn.snipcart.com");var w,u;(u=(w=window.SnipcartSettings).protocol)!=null||(w.protocol="https");var f=window.SnipcartSettings.version.includes("v3.0.0-ci")||window.SnipcartSettings.version!="3.0"&&window.SnipcartSettings.version.localeCompare("3.4.0",void 0,{numeric:!0,sensitivity:"base"})===-1,m=["focus","mouseover","touchmove","scroll","keydown"];window.LoadSnipcart=o;document.readyState==="loading"?document.addEventListener("DOMContentLoaded",r):r();function r(){window.SnipcartSettings.loadStrategy?window.SnipcartSettings.loadStrategy==="on-user-interaction"&&(m.forEach(t=>document.addEventListener(t,o)),setTimeout(o,window.SnipcartSettings.timeoutDuration)):o()}var a=!1;function o(){if(a)return;a=!0;let t=document.getElementsByTagName("head")[0],e=document.querySelector("#snipcart"),i=document.querySelector(`src[src^="${window.SnipcartSettings.protocol}://${window.SnipcartSettings.domain}"][src$="snipcart.js"]`),n=document.querySelector(`link[href^="${window.SnipcartSettings.protocol}://${window.SnipcartSettings.domain}"][href$="snipcart.css"]`);e||(e=document.createElement("div"),e.id="snipcart",e.setAttribute("hidden","true"),document.body.appendChild(e)),v(e),i||(i=document.createElement("script"),i.src=`${window.SnipcartSettings.protocol}://${window.SnipcartSettings.domain}/themes/v${window.SnipcartSettings.version}/default/snipcart.js`,i.async=!0,t.appendChild(i)),n||(n=document.createElement("link"),n.rel="stylesheet",n.type="text/css",n.href=`${window.SnipcartSettings.protocol}://${window.SnipcartSettings.domain}/themes/v${window.SnipcartSettings.version}/default/snipcart.css`,t.prepend(n)),m.forEach(g=>document.removeEventListener(g,o))}function v(t){!f||(t.dataset.apiKey=window.SnipcartSettings.publicApiKey,window.SnipcartSettings.addProductBehavior&&(t.dataset.configAddProductBehavior=window.SnipcartSettings.addProductBehavior),window.SnipcartSettings.modalStyle&&(t.dataset.configModalStyle=window.SnipcartSettings.modalStyle),window.SnipcartSettings.currency&&(t.dataset.currency=window.SnipcartSettings.currency),window.SnipcartSettings.templatesUrl&&(t.dataset.templatesUrl=window.SnipcartSettings.templatesUrl))}})();
+  </script>
   <script>
     let allCardsData = [];
     
@@ -98,10 +114,16 @@
           }
         });
         
-        // Add "Add to Cart" section
-        const addToCart = document.createElement('div');
-        addToCart.classList.add('add-to-cart');
+        // Add "Add to Cart" button
+        const addToCart = document.createElement('button');
+        addToCart.classList.add('add-to-cart', 'snipcart-add-item');
         addToCart.innerText = 'Add to Cart';
+        addToCart.setAttribute('data-item-id', cards[0].BoxIdentifier);
+        addToCart.setAttribute('data-item-price', '10'); // Example price
+        addToCart.setAttribute('data-item-description', 'Assorted cards'); // Example description
+        addToCart.setAttribute('data-item-image', 'fullcard.jpg'); // Example image
+        addToCart.setAttribute('data-item-name', 'Assorted'); // Example name
+        
         cardGrid.appendChild(addToCart);
         
         mainContent.appendChild(cardGrid);
@@ -110,6 +132,7 @@
     
     document.addEventListener('DOMContentLoaded', initializeApp);
   </script>
+  <!-- Styles -->
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
@@ -208,7 +231,7 @@
       </div>
     </div>
     <div class="sidemenu__body sidemenu__body--top container">
-      <p>Account content 🐠✨</p>
+      <button class="snipcart-customer-signin">My account</button>
     </div>
     <div class="sidemenu__footer sidemenu__footer--top">
       <label for="topMenuToggle" class="cursor-pointer">
@@ -247,17 +270,17 @@
   <nav>
     <div class="navbar__links">
       <label for="mobileMenuToggle" class="cursor-pointer button sticky">Menu</label>
-      <a href="store.html">Store (Work in Progress)</a>
+      <a href="index.html">Store (Work in Progress)</a>
       <a href="about.html">Contact (Work in Progress)</a>
       <a href="about.html">About (Work in Progress)</a>
       <label for="topMenuToggle" class="button button--accent">Account</label>
-      <label for="sideCartToggle" class="cursor-pointer button sticky">Cart</label>
+      <label for="sideCartToggle" class="snipcart-checkout cursor-pointer button sticky">Cart</label>
     </div>
   </nav>
 <input type="text" id="searchInput" placeholder="Search...">
 <main><div class="main container center"></div></main>
 
-<footer>
+<footer class="MCfooter">
   <span>Sitemap | Copyright © 2023 Maine Cardworks</span>
 </footer>
   

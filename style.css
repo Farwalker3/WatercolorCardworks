@@ -55,8 +55,9 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: 0.3s;
-  }
+  transition: padding 0.3s ease, opacity 0.3s ease; /* Smooth transition for max-height and opacity */
+  max-height: 15vw; /* Adjust based on initial height */
+}
 
 #navbar .navbar__container:active {
   padding: 5vw 2% 25vw 2%;
@@ -157,6 +158,19 @@ nav a {
   background-size: 100% 100%;
 }
 
+/* Combine repeated selectors */
+.image-overlay {
+  position: absolute;
+  top: 15%;
+  left: 15%;
+  width: 65%;
+  height: 85%;
+  background-size: 200% 100%;
+  background-position: right;
+  transform: rotate(75deg);
+  transition: transform 0.2s ease, top 0.2s ease, left 0.2s ease, width 0.2s ease, height 0.2s ease, background-size 0.2s ease; /* Faster transition */
+}
+
 .card:hover .image-overlay {
   transform: rotate(90deg);
   top: 18%;
@@ -184,18 +198,6 @@ nav a {
   border-radius: 25px;
 }
 
-.image-overlay {
-  position: absolute;
-  top: 15%;
-  left: 15%;
-  width: 65%;
-  height: 85%;
-  background-size: 200% 100%;
-  background-position: right;
-  transform: rotate(75deg);
-  transition: transform 0.5s ease;
-}
-
 .add-to-cart {
   font-family: var(--title-font);
   position: absolute;
@@ -217,7 +219,7 @@ nav a {
 
 
 /* Footer styles */
-footer {
+.MCfooter {
   background-color: var(--footer-background);
   color: #fff;
   text-align: center;
@@ -678,7 +680,7 @@ main{
     font-size: 7px;
   }
   
-  footer {
+  .MCfooter {
     display: float;
     justify-content: space-between;
     align-items: center;
@@ -686,7 +688,7 @@ main{
     font-size: 3vw;
   }
   
-  footer span {
+  .MCfooter span {
     margin-left: auto;
     margin-right: auto;
   }
