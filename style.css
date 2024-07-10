@@ -190,6 +190,7 @@ nav a {
   padding-bottom: 30px;
   border-radius: 25px;
   outline: 1px solid #d6ebdc;
+  background-color: rgba(255, 255, 255, 0.75);
 }
 
 .card {
@@ -265,8 +266,6 @@ nav a {
   font-size: 24px;
   text-align: center;
 }
-
-
 
 .add-to-cart {
   font-family: var(--title-font);
