@@ -6,7 +6,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="flower-playing-cards.svg">
-  <title>Maine Cardworks</title>
+  <title>Maine CardWorks</title>
   <!-- Preload fonts -->
   <link rel="preload" href="https://fonts.googleapis.com/css?family=Pacifico" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <link rel="preload" href="HTOWERT.TTF" as="font" type="font/ttf" crossorigin="anonymous">
@@ -29,12 +29,14 @@
     
     async function fetchCSVData() {
       try {
-        const response = await fetch('https://res.cloudinary.com/kodair/raw/upload/MaineCardworks/cards.csv');
+        const response = await fetch('https://res.cloudinary.com/kodair/raw/upload/v1720552421/MaineCardworks/cards.csv');
         if (!response.ok) {
           throw new Error('Failed to fetch data');
         }
         const csvData = await response.text();
-        const jsonData = Papa.parse(csvData, { header: true }).data;
+        const jsonData = Papa.parse(csvData, {
+          header: true
+        }).data;
         return jsonData;
       } catch (error) {
         console.error(error);
@@ -99,38 +101,97 @@
         
         cardGrid.appendChild(groupHeader);
         
-        cards.forEach(card => {
-          const count = parseInt(card.Count);
-          for (let i = 0; i < count; i++) {
-            const cardElement = document.createElement('div');
-            cardElement.classList.add('card');
-            
-            const background = document.createElement('div');
-            background.classList.add('image-overlay');
-            background.style.backgroundImage = `url(${card.BackgroundImage})`;
-            
-            cardElement.appendChild(background);
-            cardGrid.appendChild(cardElement);
+        // Create the description box
+        const groupDescription = document.createElement('div');
+        groupDescription.classList.add('GroupDescription');
+        groupDescription.style.backgroundColor = 'white';
+        
+        const title = document.createElement('div');
+        title.classList.add('DescriptionTitle');
+        title.innerText = 'Watercolor';
+        title.style.fontSize = '4vw';
+        title.style.textAlign = 'center';
+        title.style.marginBottom = '10px';
+        
+        const description = document.createElement('div');
+        description.classList.add('DescriptionText');
+        description.innerText = cards[0].Description;
+        description.style.marginBottom = '10px';
+        
+        const price = document.createElement('div');
+        price.classList.add('DescriptionPrice');
+        price.innerText = `$${cards[0].Price}`;
+        price.style.fontSize = '4vw';
+        price.style.textAlign = 'center';
+        
+        groupDescription.appendChild(title);
+        groupDescription.appendChild(description);
+        groupDescription.appendChild(price);
+        
+        // Check if the screen width is less than 600px
+        if (window.innerWidth <= 600) {
+          cardGrid.appendChild(groupDescription);
+        }
+        
+        cards.forEach((card, index) => {
+          const cardElement = document.createElement('div');
+          cardElement.classList.add('card');
+          
+          const background = document.createElement('div');
+          background.classList.add('image-overlay');
+          background.style.backgroundImage = `url(${card.BackgroundImage})`;
+          
+          const addToCart = document.createElement('button');
+          addToCart.classList.add('add-to-cart', 'snipcart-add-item');
+          addToCart.innerText = 'Add to Cart';
+          addToCart.setAttribute('data-item-id', card.BoxIdentifier);
+          addToCart.setAttribute('data-item-price', cards[0].Price); // Use group price
+          addToCart.setAttribute('data-item-description', card.CardType); // Use card type as description
+          addToCart.setAttribute('data-item-image', card.BackgroundImage); // Use card background image
+          addToCart.setAttribute('data-item-name', boxName); // Use group name
+          
+          cardElement.appendChild(background);
+          cardElement.appendChild(addToCart);
+          cardGrid.appendChild(cardElement);
+          
+          // Add description box after the first card for larger screens
+          if (index === 0 && window.innerWidth > 600) {
+            cardGrid.appendChild(groupDescription);
           }
         });
-        
-        // Add "Add to Cart" button
-        const addToCart = document.createElement('button');
-        addToCart.classList.add('add-to-cart', 'snipcart-add-item');
-        addToCart.innerText = 'Add to Cart';
-        addToCart.setAttribute('data-item-id', cards[0].BoxIdentifier);
-        addToCart.setAttribute('data-item-price', '10'); // Example price
-        addToCart.setAttribute('data-item-description', 'Assorted cards'); // Example description
-        addToCart.setAttribute('data-item-image', 'fullcard.jpg'); // Example image
-        addToCart.setAttribute('data-item-name', 'Assorted'); // Example name
-        
-        cardGrid.appendChild(addToCart);
         
         mainContent.appendChild(cardGrid);
       });
     }
     
     document.addEventListener('DOMContentLoaded', initializeApp);
+  </script>
+  <!-- Add this script to handle the delay before reverting the padding -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const navbarContainer = document.querySelector('#navbar .navbar__container');
+      
+      navbarContainer.addEventListener('click', function () {
+        navbarContainer.classList.add('active');
+        
+        setTimeout(function () {
+          navbarContainer.classList.remove('active');
+        }, 5000); // 1s expand + 3s hold + 1s revert = 5s total duration
+      });
+    });
+  </script>
+  <!-- Add this script to handle the popup display and close functionality -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const popup = document.getElementById('popup');
+      const closePopup = document.getElementById('closePopup');
+      
+      popup.style.display = 'block';
+      
+      closePopup.addEventListener('click', function () {
+        popup.style.display = 'none';
+      });
+    });
   </script>
   <!-- Styles -->
   <link rel="stylesheet" type="text/css" href="style.css">
@@ -259,11 +320,17 @@
   </aside>
   <label for="bottomMenuToggle" class="sidemenu-overlay"></label>
 </div>
+  
+  <!-- Add this inside the body tag, preferably at the beginning -->
+  <div id="popup" class="popup">
+    Click the flowers for a surprise!
+    <button id="closePopup">Close</button>
+  </div>
 
   <!-- Navbar -->
   <nav id="navbar">
     <div class="container navbar__container">
-      <span class="center-force">Maine<span class="desktop-space"> </span><span class="mobile-line-break"><br></span>Cardworks</span>
+      <span class="center-force">Maine<span class="desktop-space"> </span><span class="mobile-line-break"><br></span>CardWorks</span>
     </div>
   </nav>
   
@@ -281,7 +348,7 @@
 <main><div class="main container center"></div></main>
 
 <footer class="MCfooter">
-  <span>Sitemap | Copyright © 2023 Maine Cardworks</span>
+  <span>Sitemap | Copyright © 2024 Maine CardWorks</span>
 </footer>
   
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="display:none">

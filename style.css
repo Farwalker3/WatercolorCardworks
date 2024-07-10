@@ -55,12 +55,56 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: padding 0.3s ease, opacity 0.3s ease; /* Smooth transition for max-height and opacity */
+  transition: padding 0.3s ease, opacity 0.3s ease; /* Smooth transition for padding and opacity */
   max-height: 15vw; /* Adjust based on initial height */
 }
 
-#navbar .navbar__container:active {
-  padding: 5vw 2% 25vw 2%;
+#navbar .navbar__container.active {
+  animation: expandPadding 1s forwards, holdExpanded 3s 1s forwards, revertPadding 1s 4s forwards; /* Hold expanded state for 3 seconds after 1 second of expanding */
+}
+
+@keyframes expandPadding {
+  0% {
+    padding: 5vw 2%;
+  }
+  100% {
+    padding: 5vw 2% 25vw 2%;
+  }
+}
+
+@keyframes holdExpanded {
+  0% {
+    padding: 5vw 2% 25vw 2%;
+  }
+  100% {
+    padding: 5vw 2% 25vw 2%;
+  }
+}
+
+@keyframes revertPadding {
+  0% {
+    padding: 5vw 2% 25vw 2%;
+  }
+  100% {
+    padding: 5vw 2%;
+  }
+}
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border: 2px solid black;
+  padding: 20px;
+  z-index: 1000;
+  display: none;
+  text-align: center;
+}
+
+.popup button {
+  margin-top: 10px;
 }
 
 .centeredElement {
@@ -165,19 +209,20 @@ nav a {
   left: 15%;
   width: 65%;
   height: 85%;
-  background-size: 200% 100%;
-  background-position: right;
-  transform: rotate(75deg);
+  background-size: 400% 200%;
+  background-position: 33% 0%;
+  transform: rotate(15deg);
   transition: transform 0.2s ease, top 0.2s ease, left 0.2s ease, width 0.2s ease, height 0.2s ease, background-size 0.2s ease; /* Faster transition */
 }
 
 .card:hover .image-overlay {
-  transform: rotate(90deg);
+  transform: rotate(0deg);
   top: 18%;
   left: 0%;
   width: 100%;
   height: 70%;
-  background-size: 100% 100%;
+  background-size: 200% 200%;
+  background-position: 100% 0%;
 }
 
 .GroupHeader {
@@ -196,6 +241,29 @@ nav a {
   cursor: pointer;
   font-size: 18px;
   border-radius: 25px;
+}
+
+.GroupDescription {
+  text-align: center;
+  font-size: 16px;
+  margin-bottom: 10px;
+  padding: 16px 16px;
+  border-radius: 10px;
+}
+
+.DescriptionTitle {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.DescriptionText {
+  margin-bottom: 10px;
+}
+
+.DescriptionPrice {
+  font-size: 24px;
+  text-align: center;
 }
 
 .add-to-cart {
@@ -705,7 +773,38 @@ main{
       padding: 1vw 2%;
     }
   
-  #navbar .navbar__container:active {
-    padding: 1vw 2% 20vw 2%;
+  .card-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  
+  #navbar .navbar__container.active {
+      animation: expandPaddingMobile 1s forwards, holdExpandedMobile 3s 1s forwards, revertPaddingMobile 1s 4s forwards; /* Hold expanded state for 3 seconds after 1 second of expanding */
+  }
+
+  @keyframes expandPaddingMobile {
+    0% {
+      padding: 1vw 2%;
+    }
+    100% {
+      padding: 1vw 2% 20vw 2%;
+    }
+  }
+
+  @keyframes holdExpandedMobile {
+    0% {
+      padding: 1vw 2% 20vw 2%;
+    }
+    100% {
+      padding: 1vw 2% 20vw 2%;
+    }
+  }
+
+  @keyframes revertPaddingMobile {
+    0% {
+      padding: 1vw 2% 20vw 2%;
+    }
+    100% {
+      padding: 1vw 2%;
+    }
   }
 }
