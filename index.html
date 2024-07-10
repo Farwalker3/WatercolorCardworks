@@ -17,14 +17,15 @@
   <script src="script.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
   <script>
+    //Snipcart Script
     window.SnipcartSettings = {
       publicApiKey: 'NjY0MDM1MDYtZjBlMy00NjgxLWFkMjktNDZkMDdjODM0ZWY1NjM4NTQ4NDAzODE5NzY1NTMx',
       loadStrategy: 'on-user-interaction',
     };
     
     (()=>{var c,d;(d=(c=window.SnipcartSettings).version)!=null||(c.version="3.0");var s,S;(S=(s=window.SnipcartSettings).timeoutDuration)!=null||(s.timeoutDuration=2750);var l,p;(p=(l=window.SnipcartSettings).domain)!=null||(l.domain="cdn.snipcart.com");var w,u;(u=(w=window.SnipcartSettings).protocol)!=null||(w.protocol="https");var f=window.SnipcartSettings.version.includes("v3.0.0-ci")||window.SnipcartSettings.version!="3.0"&&window.SnipcartSettings.version.localeCompare("3.4.0",void 0,{numeric:!0,sensitivity:"base"})===-1,m=["focus","mouseover","touchmove","scroll","keydown"];window.LoadSnipcart=o;document.readyState==="loading"?document.addEventListener("DOMContentLoaded",r):r();function r(){window.SnipcartSettings.loadStrategy?window.SnipcartSettings.loadStrategy==="on-user-interaction"&&(m.forEach(t=>document.addEventListener(t,o)),setTimeout(o,window.SnipcartSettings.timeoutDuration)):o()}var a=!1;function o(){if(a)return;a=!0;let t=document.getElementsByTagName("head")[0],e=document.querySelector("#snipcart"),i=document.querySelector(`src[src^="${window.SnipcartSettings.protocol}://${window.SnipcartSettings.domain}"][src$="snipcart.js"]`),n=document.querySelector(`link[href^="${window.SnipcartSettings.protocol}://${window.SnipcartSettings.domain}"][href$="snipcart.css"]`);e||(e=document.createElement("div"),e.id="snipcart",e.setAttribute("hidden","true"),document.body.appendChild(e)),v(e),i||(i=document.createElement("script"),i.src=`${window.SnipcartSettings.protocol}://${window.SnipcartSettings.domain}/themes/v${window.SnipcartSettings.version}/default/snipcart.js`,i.async=!0,t.appendChild(i)),n||(n=document.createElement("link"),n.rel="stylesheet",n.type="text/css",n.href=`${window.SnipcartSettings.protocol}://${window.SnipcartSettings.domain}/themes/v${window.SnipcartSettings.version}/default/snipcart.css`,t.prepend(n)),m.forEach(g=>document.removeEventListener(g,o))}function v(t){!f||(t.dataset.apiKey=window.SnipcartSettings.publicApiKey,window.SnipcartSettings.addProductBehavior&&(t.dataset.configAddProductBehavior=window.SnipcartSettings.addProductBehavior),window.SnipcartSettings.modalStyle&&(t.dataset.configModalStyle=window.SnipcartSettings.modalStyle),window.SnipcartSettings.currency&&(t.dataset.currency=window.SnipcartSettings.currency),window.SnipcartSettings.templatesUrl&&(t.dataset.templatesUrl=window.SnipcartSettings.templatesUrl))}})();
-  </script>
-  <script>
+
+    //Cards Script
     let allCardsData = [];
     
     async function fetchCSVData() {
@@ -154,8 +155,37 @@
           cardElement.appendChild(addToCart);
           cardGrid.appendChild(cardElement);
           
+          cardElement.addEventListener('click', function () {
+            const cardImage = `url(${card.BackgroundImage})`;
+            const cardTitle = boxName;
+            const cardDescription = card.CardType;
+            
+            // Update popup content
+            document.getElementById('popupImage').style.backgroundImage = cardImage;
+            document.getElementById('popupTitle').innerText = cardTitle;
+            document.getElementById('popupDescription').innerText = cardDescription;
+            
+            // Show card popup
+            const cardPopup = document.getElementById('cardPopup');
+            cardPopup.style.display = 'block';
+            
+            // Close popup functionality
+            const closePopupButton = document.getElementById('closeCardPopup');
+            closePopupButton.addEventListener('click', function () {
+              cardPopup.style.display = 'none';
+            });
+            
+            // Add-to-cart button functionality
+            const addToCartButton = document.getElementById('addToCartPopup');
+            addToCartButton.setAttribute('data-item-id', card.BoxIdentifier);
+            addToCartButton.setAttribute('data-item-price', cards[0].Price); // Use group price
+            addToCartButton.setAttribute('data-item-description', card.CardType); // Use card type as description
+            addToCartButton.setAttribute('data-item-image', card.BackgroundImage); // Use card background image
+            addToCartButton.setAttribute('data-item-name', boxName); // Use group name
+          });
+          
           // Add description box after the first card for larger screens
-          if (index === 0 && window.innerWidth > 600) {
+          if (index === 1 && window.innerWidth > 600) {
             cardGrid.appendChild(groupDescription);
           }
         });
@@ -165,9 +195,6 @@
     }
     
     document.addEventListener('DOMContentLoaded', initializeApp);
-  </script>
-  <!-- Add this script to handle the delay before reverting the padding -->
-  <script>
     document.addEventListener('DOMContentLoaded', function () {
       const navbarContainer = document.querySelector('#navbar .navbar__container');
       
@@ -179,22 +206,71 @@
         }, 5000); // 1s expand + 3s hold + 1s revert = 5s total duration
       });
     });
-  </script>
-  <!-- Add this script to handle the popup display and close functionality -->
-  <script>
     document.addEventListener('DOMContentLoaded', function () {
-      const popup = document.getElementById('popup');
-      const closePopup = document.getElementById('closePopup');
+      const popup1 = document.getElementById('popup1');
+      const closePopup1 = document.getElementById('closePopup1');
       
-      popup.style.display = 'block';
-      
-      closePopup.addEventListener('click', function () {
-        popup.style.display = 'none';
+      closePopup1.addEventListener('click', function () {
+        popup1.style.display = 'none';
       });
+      
+      // Show first popup by default
+      popup1.style.display = 'block';
     });
   </script>
   <!-- Styles -->
   <link rel="stylesheet" type="text/css" href="style.css">
+  <style>
+    .custom-popup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      overflow: auto;
+    }
+    
+    .popup-content {
+      position: relative;
+      background-color: #fefefe;
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 80%;
+    }
+    
+    .close-popup {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #aaa;
+    }
+    
+    .popup-image {
+      max-width: 100%;
+      margin-bottom: 20px;
+      background-size: contain; /* Adjust based on your design */
+      background-repeat: no-repeat;
+      background-position: center; /* Adjust based on your design */
+      height: 50vh; /* Adjust height as needed */
+    }
+    
+    .popup-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    
+    .popup-description {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+  </style>
 </head>
 
 <body>
@@ -320,11 +396,24 @@
   </aside>
   <label for="bottomMenuToggle" class="sidemenu-overlay"></label>
 </div>
-  
-  <!-- Add this inside the body tag, preferably at the beginning -->
-  <div id="popup" class="popup">
+
+  <!-- First Popup -->
+  <div id="popup1" class="popup">
     Click the flowers for a surprise!
-    <button id="closePopup">Close</button>
+    <button id="closePopup1">Close</button>
+  </div>
+  
+  <!-- Second Popup -->
+  <div id="cardPopup" class="custom-popup">
+    <div class="popup-content">
+      <span id="closeCardPopup" class="close-popup">&times;</span>
+      <div id="popupImage" class="popup-image"></div>
+      <div id="popupDetails" class="popup-details">
+        <h2 id="popupTitle" class="popup-title"></h2>
+        <p id="popupDescription" class="popup-description"></p>
+        <button id="addToCartPopup" class="add-to-cart snipcart-add-item">Add to Cart</button>
+      </div>
+    </div>
   </div>
 
   <!-- Navbar -->
