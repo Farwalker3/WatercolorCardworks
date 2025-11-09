@@ -1,10 +1,131 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<title></title>
-	</head>
-	<body>
-		
-	</body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px;
+        }
+        .product {
+            display: flex;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 50%;
+            max-width: 800px;
+        }
+        img {
+            width: 40%;
+            margin-right:50px;
+            object-fit: cover;
+        }
+        .product-info {
+            width: 50%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .product-info p {
+            margin: 5px 0;
+            font-size: 25px;
+        }
+        button {
+            padding: 10px 20px;
+            width: 20%;
+            height: 10%;
+            max-width: 800px;
+            background-color: #dddddd;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            margin-bottom: 50px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        span {
+        padding: 20px;
+        }
+        input {
+        padding: 10px 20px;
+            width: 5%;
+            height: 10%;
+            max-width: 800px;
+            background-color: #dddddd;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            margin-bottom: 50px;
+            margin-right:50px;
+        }
+        center {
+         font-size: 75px;
+        }
+        #price {
+        	font-size: 50px;
+        }
+        @media (max-width: 768px) {
+            .product {
+                flex-direction: column;
+            }
+            .product img, .product-info {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+<center>All Occassion</center>
+<img src="pic_trulli.jpg" alt="Trulli">
+    <div class="product">
+        <div class="product-info">
+            <center>Watercolor</center>
+            <p>All Occasion Blank Note Cards, Box of 10, 4.25x5.5, Including 10 Envelopes</p>
+            <p id="price">$11.95</p>
+        </div>
+    </div>
+    <img src="pic_trulli.jpg" alt="Trulli">
+    <img src="pic_trulli.jpg" alt="Trulli">
+    <button>Add To Cart</button>
+    <span class="item-label">Quantity:</span>
+    <input type="number" placeholder="1">
+    <button>Add To Cart</button>
+    <span class="item-label">Quantity:</span>
+    <input type="number" placeholder="1">
+    <img src="pic_trulli.jpg" alt="Trulli">
+    <img src="pic_trulli.jpg" alt="Trulli">
+    <button>Add To Cart</button><button>Add To Cart</button>
+<div class="product">
+        <img src="pic_trulli.jpg" alt="Trulli">
+        <div class="product-info">
+            <center>Watercolor</center>
+            <p>All Occasion Blank Note Cards, Box of 10, 4.25x5.5, Including 10 Envelopes</p>
+            <p id="price">$11.95</p>
+        </div>
+    </div>
+    <button>Add To Cart</button>
+</div>
+
+</body>
 </html>
